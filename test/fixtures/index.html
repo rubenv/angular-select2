@@ -18,6 +18,14 @@
                     <input id="simpleText" type="text" ng-model="values.single" />
                     <select id="simpleSelect2" select2 ng-model="values.single" ng-options="id as name for (id, name) in singleOptions"></select>
                 </fieldset>
+
+                <fieldset>
+                    <label>Multiple select</label>
+                    
+                    <input id="multipleText" type="text" ng-model="values.multiple" />
+                    <select id="multipleSelect2" select2 ng-model="values.multiple" ng-options="id as name for (id, name) in multipleOptions" multiple></select>
+                    <button id="multipleChange" ng-click="values.multiple = ['2', '4']">Change!</button>
+                </fieldset>
             </form>
         </div>
     </body>

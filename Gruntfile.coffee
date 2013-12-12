@@ -65,7 +65,7 @@ module.exports = (grunt) ->
             options:
                 keepAlive: true
                 noColor: false
-            ese2:
+            dev:
                 configFile: 'test-config.js'
 
     @registerTask 'default', ['test']

@@ -1,6 +1,7 @@
 describe('Simple', function () {
     var TestPage = function () {
         this.textInput = element(by.id('simpleText'));
+        this.select = element(by.id('s2id_simpleSelect2'));
         this.chosen = element(by.css('.select2-chosen'));
 
         this.get = function () {
@@ -20,6 +21,11 @@ describe('Simple', function () {
             return this.chosen.getText();
         };
 
+        this.selectValue = function (index) {
+            this.select.click();
+            element(by.css('.select2-result:nth-child(' + index + ')')).click();
+        };
+
         this.get();
     };
 
@@ -35,6 +41,12 @@ describe('Simple', function () {
 
     it('Should switch value', function () {
         page.setInputValue('2');
+        expect(page.getChosenLabel()).toEqual('Two');
+    });
+
+    it('Should set value on model', function () {
+        page.selectValue(2);
+        expect(page.getInputValue()).toEqual('2');
         expect(page.getChosenLabel()).toEqual('Two');
     });
 });
