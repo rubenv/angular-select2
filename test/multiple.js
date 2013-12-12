@@ -31,6 +31,10 @@ describe('Multiple', function () {
             this.selectEntry.sendKeys(protractor.Key.ENTER);
         };
 
+        this.clickChange = function () {
+            element(by.id('multipleChange')).click();
+        };
+
         this.get();
     };
 
@@ -48,5 +52,11 @@ describe('Multiple', function () {
         page.enter('tw');
         expect(page.getInputValue()).toEqual('1,2,3');
         page.assertSelectedValues(['One', 'Three', 'Two']);
+    });
+
+    it('Should respond to scope changes', function () {
+        page.clickChange();
+        expect(page.getInputValue()).toEqual('2,4');
+        page.assertSelectedValues(['Two', 'Four']);
     });
 });

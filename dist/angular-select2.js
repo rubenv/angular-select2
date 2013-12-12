@@ -16,7 +16,6 @@
           var isMultiple = angular.isDefined(attrs.multiple) || opts.multiple;
           controller.$render = function () {
             if (isMultiple) {
-              element.select2('data', controller.$viewValue);
             } else {
               element.select2('val', controller.$viewValue);
             }

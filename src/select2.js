@@ -16,7 +16,7 @@ angular.module('rt.select2', [])
 
             controller.$render = function () {
                 if (isMultiple) {
-                    element.select2('data', controller.$viewValue);
+                    //element.select2('data', controller.$viewValue);
                 } else {
                     element.select2('val', controller.$viewValue);
                 }
