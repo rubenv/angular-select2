@@ -15,6 +15,7 @@
     "$",
     "angular",
     "describe",
+    "ddescribe",
     "it",
     "iit",
     "beforeEach",

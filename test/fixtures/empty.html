@@ -12,15 +12,15 @@
     <body ng-app="testapp">
         <div ng-controller="TestController">
             <form>
-                <fieldset id="multiple">
-                    <label>Multiple select</label>
+                <fieldset>
+                    <label>No preselected value</label>
                     
-                    <input id="multipleText" type="text" ng-model="values.multiple" />
-                    <select2 id="multipleSelect2" ng-model="values.multiple" ng-options="id as name for (id, name) in multipleOptions" multiple></select2>
-                    <button id="multipleChange" ng-click="values.multiple = ['2', '4']">Change!</button>
+                    <input id="simpleText" type="text" ng-model="values.empty" />
+                    <select2 id="simpleSelect2" ng-model="values.empty" ng-options="id as name for (id, name) in singleOptions"></select2>
                 </fieldset>
             </form>
         </div>
     </body>
 </html>
+
 

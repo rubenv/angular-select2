@@ -12,11 +12,11 @@
     <body ng-app="testapp">
         <div ng-controller="TestController">
             <form>
-                <fieldset id="simple">
+                <fieldset>
                     <label>Simple single select</label>
                     
                     <input id="simpleText" type="text" ng-model="values.single" />
-                    <select id="simpleSelect2" select2 ng-model="values.single" ng-options="id as name for (id, name) in singleOptions"></select>
+                    <select2 id="simpleSelect2" ng-model="values.single" ng-options="id as name for (id, name) in singleOptions"></select2>
                 </fieldset>
             </form>
         </div>
