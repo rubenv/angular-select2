@@ -111,10 +111,12 @@ angular.module('rt.select2', [])
                         var value = valueFn(scope, locals);
                         var label = displayFn(scope, locals) || "";
 
-                        options.push({
-                            id: value,
-                            text: label
-                        });
+                        if (label.toLowerCase().indexOf(query.term.toLowerCase()) > -1) {
+                            options.push({
+                                id: value,
+                                text: label
+                            });
+                        }
                     }
 
                     query.callback({
