@@ -45,7 +45,7 @@
             var modelFn = $parse(attrs.ngModel);
             var getSelection = function () {
               var values = valuesFn(scope);
-              var keys = keyName ? sortedKeys(values) : values;
+              var keys = (keyName ? sortedKeys(values) : values) || [];
               var selection = [];
               for (var i = 0; i < keys.length; i++) {
                 var locals = {};
@@ -84,7 +84,7 @@
             };
             opts.query = function (query) {
               var values = valuesFn(scope);
-              var keys = keyName ? sortedKeys(values) : values;
+              var keys = (keyName ? sortedKeys(values) : values) || [];
               var options = [];
               for (var i = 0; i < keys.length; i++) {
                 var locals = {};

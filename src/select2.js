@@ -50,7 +50,7 @@ angular.module('rt.select2', [])
 
                 var getSelection = function () {
                     var values = valuesFn(scope);
-                    var keys = keyName ? sortedKeys(values) : values;
+                    var keys = (keyName ? sortedKeys(values) : values) || [];
 
                     var selection = [];
                     for (var i = 0; i < keys.length; i++) {
@@ -96,7 +96,7 @@ angular.module('rt.select2', [])
 
                 opts.query = function (query) {
                     var values = valuesFn(scope);
-                    var keys = keyName ? sortedKeys(values) : values;
+                    var keys = (keyName ? sortedKeys(values) : values) || [];
 
                     var options = [];
                     for (var i = 0; i < keys.length; i++) {
@@ -109,7 +109,7 @@ angular.module('rt.select2', [])
                         locals[valueName] = values[key];
 
                         var value = valueFn(scope, locals);
-                        var label = displayFn(scope, locals);
+                        var label = displayFn(scope, locals) || "";
 
                         options.push({
                             id: value,
