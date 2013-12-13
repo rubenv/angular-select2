@@ -4,6 +4,11 @@ angular.module('testapp', ['rt.select2'])
             "1": "One",
             "2": "Two"
         };
+
+        $scope.singleOptionsArray = [
+            { key: "1", value: "One" },
+            { key: "2", value: "Two" },
+        ];
         
         $scope.multipleOptions = {
             "1": "One",
@@ -11,6 +16,13 @@ angular.module('testapp', ['rt.select2'])
             "3": "Three",
             "4": "Four"
         };
+
+        $scope.multipleOptionsArray = [
+            { key: "1", value: "One" },
+            { key: "2", value: "Two" },
+            { key: "3", value: "Three" },
+            { key: "4", value: "Four" },
+        ];
 
         $scope.values = {
             single: "1",

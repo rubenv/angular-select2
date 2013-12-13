@@ -16,6 +16,7 @@
     "angular",
     "describe",
     "it",
+    "iit",
     "beforeEach",
     "browser",
     "expect",

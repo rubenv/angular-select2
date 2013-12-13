@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="/bower_components/select2/select2.css" />
+
+        <script src="/bower_components/jquery/jquery.js"></script>
+        <script src="/bower_components/select2/select2.js"></script>
+        <script src="/bower_components/angular/angular.js"></script>
+        <script src="/dist/angular-select2.js"></script>
+        <script src="app.js"></script>
+    </head>
+    <body ng-app="testapp">
+        <div ng-controller="TestController">
+            <form>
+                <fieldset id="simple">
+                    <label>Simple single select</label>
+                    
+                    <input id="simpleText" type="text" ng-model="values.single" />
+                    <select id="simpleSelect2" select2 ng-model="values.single" ng-options="id as name for (id, name) in singleOptions"></select>
+                </fieldset>
+            </form>
+        </div>
+    </body>
+</html>
+

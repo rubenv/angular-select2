@@ -12,6 +12,7 @@
   "white": true,
   "predef": [
     "$",
-    "angular"
+    "angular",
+    "console"
   ]
 }

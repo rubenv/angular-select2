@@ -1,11 +1,11 @@
-describe('Multiple', function () {
+describe('Multiple Array', function () {
     var TestPage = function () {
         this.textInput = element(by.id('multipleText'));
         this.select = element(by.id('s2id_multipleSelect2'));
         this.selectEntry = element(by.css('.select2-input'));
 
         this.get = function () {
-            browser.get('http://localhost:9000/test/fixtures/multiple.html');
+            browser.get('http://localhost:9000/test/fixtures/multipleArray.html');
         };
 
         this.getInputValue = function () {

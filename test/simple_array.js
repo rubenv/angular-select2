@@ -1,11 +1,11 @@
-describe('Simple', function () {
+describe('Simple Array', function () {
     var TestPage = function () {
-        this.textInput = element(by.id('simpleText'));
-        this.select = element(by.id('s2id_simpleSelect2'));
+        this.textInput = element(by.id('simpleArrayText'));
+        this.select = element(by.id('s2id_simpleArraySelect2'));
         this.chosen = element(by.css('.select2-chosen'));
 
         this.get = function () {
-            browser.get('http://localhost:9000/test/fixtures/simple.html');
+            browser.get('http://localhost:9000/test/fixtures/simpleArray.html');
         };
 
         this.getInputValue = function () {
@@ -50,3 +50,4 @@ describe('Simple', function () {
         expect(page.getChosenLabel()).toEqual('Two');
     });
 });
+

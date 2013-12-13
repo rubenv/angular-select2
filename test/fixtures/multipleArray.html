@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="/bower_components/select2/select2.css" />
+
+        <script src="/bower_components/jquery/jquery.js"></script>
+        <script src="/bower_components/select2/select2.js"></script>
+        <script src="/bower_components/angular/angular.js"></script>
+        <script src="/dist/angular-select2.js"></script>
+        <script src="app.js"></script>
+    </head>
+    <body ng-app="testapp">
+        <div ng-controller="TestController">
+            <form>
+                <fieldset id="multiple">
+                    <label>Multiple select</label>
+                    
+                    <input id="multipleText" type="text" ng-model="values.multiple" />
+                    <select id="multipleSelect2" select2 ng-model="values.multiple" ng-options="obj.key as obj.value for obj in multipleOptionsArray" multiple></select>
+                    <button id="multipleChange" ng-click="values.multiple = ['2', '4']">Change!</button>
+                </fieldset>
+            </form>
+        </div>
+    </body>
+</html>
+
+

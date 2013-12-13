@@ -12,14 +12,7 @@
     <body ng-app="testapp">
         <div ng-controller="TestController">
             <form>
-                <fieldset>
-                    <label>Simple single select</label>
-                    
-                    <input id="simpleText" type="text" ng-model="values.single" />
-                    <select id="simpleSelect2" select2 ng-model="values.single" ng-options="id as name for (id, name) in singleOptions"></select>
-                </fieldset>
-
-                <fieldset>
+                <fieldset id="multiple">
                     <label>Multiple select</label>
                     
                     <input id="multipleText" type="text" ng-model="values.multiple" />
@@ -30,3 +23,4 @@
         </div>
     </body>
 </html>
+
