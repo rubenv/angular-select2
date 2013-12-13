@@ -59,7 +59,7 @@ angular.module('rt.select2', [])
                     var value = valueFn(scope, locals);
 
                     if (isMultiple) {
-                        if (controller.$viewValue.indexOf(value) > -1) {
+                        if (controller.$viewValue && controller.$viewValue.indexOf(value) > -1) {
                             selection.push({
                                 id: value,
                                 text: displayFn(scope, locals)
