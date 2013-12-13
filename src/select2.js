@@ -30,10 +30,15 @@ angular.module('rt.select2', [])
         template: '<input type="hidden"></input>',
         replace: true,
         link: function (scope, element, attrs, controller) {
-            var opts = angular.extend({}, options, scope.$eval(attrs.select2));
+            var getSelection;
+            var getOptions;
+
+            var opts = angular.extend({}, options, scope.$eval(attrs.options));
             var isMultiple = angular.isDefined(attrs.multiple) || opts.multiple;
 
             opts.multiple = isMultiple;
+
+            var modelFn = $parse(attrs.ngModel);
 
             if (attrs.ngOptions) {
                 var match;
@@ -46,13 +51,12 @@ angular.module('rt.select2', [])
                 var valueName = match[4] || match[6];
                 var valueFn = $parse(match[2] ? match[1] : valueName);
                 var keyName = match[5];
-                var modelFn = $parse(attrs.ngModel);
 
-                var getSelection = function () {
+                getOptions = function (callback) {
                     var values = valuesFn(scope);
                     var keys = (keyName ? sortedKeys(values) : values) || [];
 
-                    var selection = [];
+                    var options = [];
                     for (var i = 0; i < keys.length; i++) {
                         var locals = {};
                         var key = i;
@@ -63,35 +67,15 @@ angular.module('rt.select2', [])
                         locals[valueName] = values[key];
 
                         var value = valueFn(scope, locals);
+                        var label = displayFn(scope, locals) || "";
 
-                        if (isMultiple) {
-                            if (controller.$viewValue && controller.$viewValue.indexOf(value) > -1) {
-                                selection.push({
-                                    id: value,
-                                    text: displayFn(scope, locals)
-                                });
-                            }
-                        } else {
-                            if (controller.$viewValue === value) {
-                                return {
-                                    id: key,
-                                    text: displayFn(scope, locals)
-                                };
-                            }
-                        }
+                        options.push({
+                            id: value,
+                            text: label
+                        });
                     }
 
-                    return selection;
-                };
-
-                controller.$render = function () {
-                    var selection = getSelection();
-
-                    if (isMultiple) {
-                        element.select2('data', selection);
-                    } else {
-                        element.select2('val', selection.id);
-                    }
+                    callback(options);
                 };
 
                 opts.query = function (query) {
@@ -123,10 +107,53 @@ angular.module('rt.select2', [])
                         results: options
                     });
                 };
+            } else {
+                if (!opts.query) {
+                    throw new Error("You need to supply a query function!");
+                }
+
+                getOptions = function (callback) {
+                    opts.query({
+                        term: "",
+                        callback: function (query) {
+                            callback(query.results);
+                        }
+                    });
+                };
             }
 
+            getSelection = function (callback) {
+                getOptions(function (options) {
+                    var selection = [];
+                    for (var i = 0; i < options.length; i++) {
+                        var option = options[i];
+                        if (isMultiple) {
+                            if (controller.$viewValue && controller.$viewValue.indexOf(option.id) > -1) {
+                                selection.push(option);
+                            }
+                        } else {
+                            if (controller.$viewValue === option.id) {
+                                callback(option);
+                                return;
+                            }
+                        }
+                    }
+                    callback(selection);
+                });
+            };
+
+            controller.$render = function () {
+                getSelection(function (selection) {
+                    if (isMultiple) {
+                        element.select2('data', selection);
+                    } else {
+                        element.select2('val', selection.id);
+                    }
+                });
+            };
+
             opts.initSelection = function (element, callback) {
-                callback(getSelection());
+                getSelection(callback);
             };
 
             $timeout(function () {
