@@ -5,7 +5,7 @@ module.exports = (grunt) ->
     @loadNpmTasks('grunt-contrib-jshint')
     @loadNpmTasks('grunt-contrib-uglify')
     @loadNpmTasks('grunt-contrib-watch')
-    @loadNpmTasks('grunt-release')
+    @loadNpmTasks('grunt-bump')
     @loadNpmTasks('grunt-ngmin')
     @loadNpmTasks('grunt-protractor-runner')
 
@@ -68,8 +68,13 @@ module.exports = (grunt) ->
             dev:
                 configFile: 'test-config.js'
 
+        bump:
+            options:
+                files: ['package.json', 'bower.json']
+                commitFiles: ['-a']
+                pushTo: 'origin'
+
     @registerTask 'default', ['test']
     @registerTask 'build', ['clean', 'jshint', 'concat', 'ngmin', 'uglify']
-    @registerTask 'package', ['build', 'release']
     @registerTask 'test', ['build', 'connect:e2e', 'protractor', 'watch:all']
     @registerTask 'ci', ['build', 'connect:e2e', 'protractor']

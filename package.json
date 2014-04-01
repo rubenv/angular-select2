@@ -21,14 +21,14 @@
   "license": "MIT",
   "devDependencies": {
     "grunt": "~0.4.1",
+    "grunt-bump": "0.0.13",
     "grunt-contrib-clean": "~0.5.0",
     "grunt-contrib-concat": "~0.3.0",
     "grunt-contrib-connect": "~0.3.0",
+    "grunt-contrib-jshint": "~0.6.4",
     "grunt-contrib-uglify": "~0.2.2",
     "grunt-contrib-watch": "~0.5.1",
     "grunt-ngmin": "0.0.3",
-    "grunt-release": "~0.3.5",
-    "grunt-contrib-jshint": "~0.6.4",
     "grunt-protractor-runner": "~0.2.0",
     "protractor": "~0.14.0"
   },
