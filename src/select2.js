@@ -38,6 +38,10 @@ angular.module('rt.select2', [])
 
             opts.multiple = isMultiple;
 
+            if (attrs.placeholder) {
+                opts.placeholder = attrs.placeholder;
+            }
+
             var modelFn = $parse(attrs.ngModel);
 
             if (attrs.ngOptions) {
