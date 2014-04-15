@@ -3,5 +3,5 @@ exports.config = {
         'test/*.js'
     ],
 
-    multiCapabilities: require('open-sauce-browsers')('angular-import-scope')
+    multiCapabilities: require('open-sauce-browsers')('angular-select2')
 };
