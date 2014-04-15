@@ -73,7 +73,7 @@ module.exports = (grunt) ->
                     args:
                         chromeOnly: true
             ci:
-                configFile: 'test-config.js'
+                configFile: 'test-config-ci.js'
                 options:
                     keepAlive: false
                     args:
