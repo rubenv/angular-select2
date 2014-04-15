@@ -7,7 +7,6 @@
     "test": "test"
   },
   "scripts": {
-    "install": "./node_modules/protractor/bin/webdriver-manager update",
     "test": "grunt ci"
   },
   "keywords": [
@@ -31,7 +30,10 @@
     "grunt-contrib-watch": "~0.6.1",
     "grunt-ngmin": "0.0.3",
     "grunt-protractor-runner": "~0.2.4",
-    "protractor": "~0.20.1"
+    "grunt-sauce-tunnel": "^0.2.0",
+    "grunt-shell": "^0.6.4",
+    "open-sauce-browsers": "git://github.com/rubenv/open-sauce-browsers",
+    "protractor": "~0.21.0"
   },
   "repository": {
     "type": "git",

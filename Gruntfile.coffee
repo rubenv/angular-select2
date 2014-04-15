@@ -1,13 +1,15 @@
 module.exports = (grunt) ->
+    @loadNpmTasks('grunt-bump')
     @loadNpmTasks('grunt-contrib-clean')
     @loadNpmTasks('grunt-contrib-concat')
     @loadNpmTasks('grunt-contrib-connect')
     @loadNpmTasks('grunt-contrib-jshint')
     @loadNpmTasks('grunt-contrib-uglify')
     @loadNpmTasks('grunt-contrib-watch')
-    @loadNpmTasks('grunt-bump')
     @loadNpmTasks('grunt-ngmin')
     @loadNpmTasks('grunt-protractor-runner')
+    @loadNpmTasks('grunt-sauce-tunnel')
+    @loadNpmTasks('grunt-shell')
 
     @initConfig
         config:
@@ -44,7 +46,7 @@ module.exports = (grunt) ->
                 livereload: true
             all:
                 files: ['src/**.js', 'test/*{,/*}']
-                tasks: ['build', 'protractor']
+                tasks: ['build', 'protractor:dev']
 
         ngmin:
             dist:
@@ -67,6 +69,16 @@ module.exports = (grunt) ->
                 noColor: false
             dev:
                 configFile: 'test-config.js'
+                options:
+                    args:
+                        chromeOnly: true
+            ci:
+                configFile: 'test-config.js'
+                keepAlive: false
+                options:
+                    args:
+                        sauceUser: process.env.SAUCE_USERNAME
+                        sauceKey: process.env.SAUCE_ACCESS_KEY
 
         bump:
             options:
@@ -74,7 +86,21 @@ module.exports = (grunt) ->
                 commitFiles: ['-a']
                 pushTo: 'origin'
 
+        shell:
+            protractor_update:
+                command: 'node_modules/protractor/bin/webdriver-manager update'
+                options:
+                    stdout: true
+
+        sauce_tunnel:
+            ci:
+                options:
+                    username: process.env.SAUCE_USERNAME
+                    key: process.env.SAUCE_ACCESS_KEY
+                    identifier: process.env.TRAVIS_JOB_NUMBER || 'test'
+
+
     @registerTask 'default', ['test']
     @registerTask 'build', ['clean', 'jshint', 'concat', 'ngmin', 'uglify']
-    @registerTask 'test', ['build', 'connect:e2e', 'protractor', 'watch:all']
-    @registerTask 'ci', ['build', 'connect:e2e', 'protractor']
+    @registerTask 'test', ['build', 'shell:protractor_update', 'connect:e2e', 'protractor:dev', 'watch:all']
+    @registerTask 'ci', ['build', 'shell:protractor_update', 'sauce_tunnel', 'connect:e2e', 'protractor:ci']

@@ -1,6 +1,7 @@
 exports.config = {
-    chromeOnly: true,
     specs: [
         'test/*.js'
-    ]
+    ],
+
+    multiCapabilities: require('open-sauce-browsers')('angular-import-scope')
 };
