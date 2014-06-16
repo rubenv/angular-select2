@@ -3,7 +3,7 @@
     <head>
         <link rel="stylesheet" type="text/css" href="/bower_components/select2/select2.css" />
 
-        <script src="/bower_components/jquery/jquery.js"></script>
+        <script src="/bower_components/jquery/dist/jquery.js"></script>
         <script src="/bower_components/select2/select2.js"></script>
         <script src="/bower_components/angular/angular.js"></script>
         <script src="/dist/angular-select2.js"></script>
@@ -14,7 +14,7 @@
             <form>
                 <fieldset id="multiple">
                     <label>Multiple select</label>
-                    
+
                     <input id="multipleText" type="text" ng-model="values.multiple" />
                     <select2 id="multipleSelect2" ng-model="values.multiple" ng-options="obj.key as obj.value for obj in multipleOptionsArray" multiple></select2>
                     <button id="multipleChange" ng-click="values.multiple = ['2', '4']">Change!</button>
@@ -23,5 +23,3 @@
         </div>
     </body>
 </html>
-
-
