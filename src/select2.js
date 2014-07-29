@@ -111,6 +111,11 @@ angular.module('rt.select2', [])
                         results: options
                     });
                 };
+
+                // Make sure changes to the options get filled in
+                scope.$watch(match[7], function () {
+                    controller.$render();
+                });
             } else {
                 if (!opts.query) {
                     throw new Error("You need to supply a query function!");
