@@ -1,6 +1,6 @@
 {
   "name": "angular-select2",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Select2 directive for Angular.js",
   "main": "index.js",
   "directories": {
