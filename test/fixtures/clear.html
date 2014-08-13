@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="/bower_components/select2/select2.css" />
+
+        <script src="/bower_components/jquery/dist/jquery.js"></script>
+        <script src="/bower_components/select2/select2.js"></script>
+        <script src="/bower_components/angular/angular.js"></script>
+        <script src="/dist/angular-select2.js"></script>
+        <script src="app.js"></script>
+
+        <style>
+            .select2-container {
+                width: 100px;
+            }
+        </style>
+    </head>
+    <body ng-app="testapp">
+        <div ng-controller="TestController">
+            <form>
+                <fieldset>
+                    <label>Has clear button</label>
+
+                    <input id="simpleText" type="text" ng-model="values.cleared" />
+                    <select2 id="simpleSelect2" ng-model="values.cleared" ng-options="id as name for (id, name) in singleOptions" options="{ allowClear: true, placeholder: 'None' }"></select2>
+                </fieldset>
+            </form>
+        </div>
+    </body>
+</html>
+
