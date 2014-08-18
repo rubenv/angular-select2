@@ -6,6 +6,7 @@ module.exports = (grunt) ->
     @loadNpmTasks('grunt-contrib-jshint')
     @loadNpmTasks('grunt-contrib-uglify')
     @loadNpmTasks('grunt-contrib-watch')
+    @loadNpmTasks('grunt-jscs')
     @loadNpmTasks('grunt-ngmin')
     @loadNpmTasks('grunt-protractor-runner')
     @loadNpmTasks('grunt-sauce-tunnel')
@@ -27,6 +28,13 @@ module.exports = (grunt) ->
                     jshintrc: '.jshintrc-test'
                 files:
                     src: ['test/*{,/*}.js']
+
+        jscs:
+            lib:
+                options:
+                    config: '.jscs.json'
+                files:
+                    src: ['src/**.js']
 
         concat:
             dist:
@@ -101,6 +109,6 @@ module.exports = (grunt) ->
 
 
     @registerTask 'default', ['test']
-    @registerTask 'build', ['clean', 'jshint', 'concat', 'ngmin', 'uglify']
+    @registerTask 'build', ['clean', 'jshint', 'jscs', 'concat', 'ngmin', 'uglify']
     @registerTask 'test', ['build', 'shell:protractor_update', 'connect:e2e', 'protractor:dev', 'watch:all']
     @registerTask 'ci', ['build', 'shell:protractor_update', 'sauce_tunnel', 'connect:e2e', 'protractor:ci']

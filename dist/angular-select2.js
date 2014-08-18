@@ -10,18 +10,20 @@
     }
     return keys.sort();
   }
-  angular.module('rt.select2', []).value('select2Config', {}).directive('select2', [
+  var m = angular.module('rt.select2', []);
+  m.value('select2Config', {});
+  m.directive('select2', [
     '$rootScope',
     '$timeout',
     '$parse',
     'select2Config',
     function ($rootScope, $timeout, $parse, select2Config) {
       'use strict';
-      var options = {};
+      var defaultOptions = {};
       //0000111110000000000022220000000000000000000000333300000000000000444444444444444000000000555555555555555000000066666666666666600000000000000007777000000000000000000088888
       var NG_OPTIONS_REGEXP = /^\s*(.*?)(?:\s+as\s+(.*?))?(?:\s+group\s+by\s+(.*))?\s+for\s+(?:([\$\w][\$\w]*)|(?:\(\s*([\$\w][\$\w]*)\s*,\s*([\$\w][\$\w]*)\s*\)))\s+in\s+(.*?)(?:\s+track\s+by\s+(.*?))?$/;
       if (select2Config) {
-        angular.extend(options, select2Config);
+        angular.extend(defaultOptions, select2Config);
       }
       return {
         require: 'ngModel',
@@ -32,7 +34,7 @@
         link: function (scope, element, attrs, controller) {
           var getSelection;
           var getOptions;
-          var opts = angular.extend({}, options, scope.$eval(attrs.options));
+          var opts = angular.extend({}, defaultOptions, scope.$eval(attrs.options));
           var isMultiple = angular.isDefined(attrs.multiple) || opts.multiple;
           opts.multiple = isMultiple;
           if (attrs.placeholder) {
