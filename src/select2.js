@@ -30,7 +30,6 @@ m.directive('select2', function ($rootScope, $timeout, $parse, select2Config) {
         template: '<input type="hidden"></input>',
         replace: true,
         link: function (scope, element, attrs, controller) {
-            var getSelection;
             var getOptions;
 
             var opts = angular.extend({}, defaultOptions, scope.$eval(attrs.options));
@@ -43,6 +42,13 @@ m.directive('select2', function ($rootScope, $timeout, $parse, select2Config) {
             }
 
             var modelFn = $parse(attrs.ngModel);
+
+            // All values returned from Select2 are strings. This is a problem
+            // if you supply integer indexes: they'll become strings once
+            // passing through this directive. We keep a mapping between string
+            // keys and values the optionValues object, to be able to return
+            // the correctly typed value.
+            var optionValues = {};
 
             if (attrs.ngOptions) {
                 var match;
@@ -72,6 +78,10 @@ m.directive('select2', function ($rootScope, $timeout, $parse, select2Config) {
 
                         var value = valueFn(scope, locals);
                         var label = displayFn(scope, locals) || '';
+
+                        // Select2 returns strings, we use a dictionary to get
+                        // back to the original value.
+                        optionValues[value] = value;
 
                         options.push({
                             id: value,
@@ -125,23 +135,28 @@ m.directive('select2', function ($rootScope, $timeout, $parse, select2Config) {
                     opts.query({
                         term: '',
                         callback: function (query) {
+                            for (var i = 0; i < query.results.length; i++) {
+                                var result = query.results[i];
+                                optionValues[result.id] = result.id;
+                            }
                             callback(query.results);
                         }
                     });
                 };
             }
 
-            getSelection = function (callback) {
+            function getSelection(callback) {
                 getOptions(function (options) {
                     var selection = [];
                     for (var i = 0; i < options.length; i++) {
                         var option = options[i];
                         if (isMultiple) {
-                            if (controller.$viewValue && controller.$viewValue.indexOf(option.id) > -1) {
+                            var viewValue = controller.$viewValue || [];
+                            if (viewValue.indexOf(option.id) > -1) {
                                 selection.push(option);
                             }
                         } else {
-                            if (controller.$viewValue === option.id) {
+                            if (optionValues[controller.$viewValue] === option.id) {
                                 callback(option);
                                 return;
                             }
@@ -149,7 +164,7 @@ m.directive('select2', function ($rootScope, $timeout, $parse, select2Config) {
                     }
                     callback(selection);
                 });
-            };
+            }
 
             controller.$render = function () {
                 getSelection(function (selection) {
@@ -169,7 +184,15 @@ m.directive('select2', function ($rootScope, $timeout, $parse, select2Config) {
                 element.select2(opts);
                 element.on('change', function (e) {
                     scope.$apply(function () {
-                        modelFn.assign(scope, e.val);
+                        if (isMultiple) {
+                            var vals = [];
+                            for (var i = 0; i < e.val.length; i++) {
+                                vals[i] = optionValues[e.val[i]];
+                            }
+                            modelFn.assign(scope, vals);
+                        } else {
+                            modelFn.assign(scope, optionValues[e.val]);
+                        }
                     });
                 });
                 controller.$render();

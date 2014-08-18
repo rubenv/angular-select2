@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="/bower_components/select2/select2.css" />
+
+        <script src="/bower_components/jquery/dist/jquery.js"></script>
+        <script src="/bower_components/select2/select2.js"></script>
+        <script src="/bower_components/angular/angular.js"></script>
+        <script src="/dist/angular-select2.js"></script>
+        <script src="app.js"></script>
+    </head>
+    <body ng-app="testapp">
+        <div ng-controller="TestController">
+            <form>
+                <fieldset id="multipleInt">
+                    <label>Multiple Int select</label>
+
+                    <input id="multipleIntText" type="text" ng-model="values.multipleInt" />
+                    <select2 id="multipleIntSelect2" ng-model="values.multipleInt" ng-options="obj.key as obj.value for obj in multipleIntOptionsArray" multiple></select2>
+                    <button id="multipleIntChange" ng-click="values.multipleInt = [2, 4]">Change!</button>
+                </fieldset>
+            </form>
+        </div>
+    </body>
+</html>

@@ -9,6 +9,11 @@ angular.module('testapp', ['rt.select2']).controller('TestController', function 
         { key: "2", value: "Two" },
     ];
     
+    $scope.singleIntOptionsArray = [
+        { key: 1, value: "One" },
+        { key: 2, value: "Two" },
+    ];
+    
     $scope.multipleOptions = {
         "1": "One",
         "2": "Two",
@@ -23,9 +28,18 @@ angular.module('testapp', ['rt.select2']).controller('TestController', function 
         { key: "4", value: "Four" },
     ];
 
+    $scope.multipleIntOptionsArray = [
+        { key: 1, value: "One" },
+        { key: 2, value: "Two" },
+        { key: 3, value: "Three" },
+        { key: 4, value: "Four" },
+    ];
+
     $scope.values = {
         single: "1",
-        multiple: ["1", "3"]
+        singleInt: 1,
+        multiple: ["1", "3"],
+        multipleInt: [1, 3]
     };
 
     $scope.selectOptions = {
