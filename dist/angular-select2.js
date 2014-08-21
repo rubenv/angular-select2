@@ -75,7 +75,8 @@
                 optionValues[value] = value;
                 options.push({
                   id: value,
-                  text: label
+                  text: label,
+                  obj: values[key]
                 });
               }
               callback(options);
@@ -97,7 +98,8 @@
                 if (label.toLowerCase().indexOf(query.term.toLowerCase()) > -1) {
                   options.push({
                     id: value,
-                    text: label
+                    text: label,
+                    obj: values[key]
                   });
                 }
               }
