@@ -85,7 +85,8 @@ m.directive('select2', function ($rootScope, $timeout, $parse, select2Config) {
 
                         options.push({
                             id: value,
-                            text: label
+                            text: label,
+                            obj: values[key]
                         });
                     }
 
@@ -112,7 +113,8 @@ m.directive('select2', function ($rootScope, $timeout, $parse, select2Config) {
                         if (label.toLowerCase().indexOf(query.term.toLowerCase()) > -1) {
                             options.push({
                                 id: value,
-                                text: label
+                                text: label,
+                                obj: values[key]
                             });
                         }
                     }
