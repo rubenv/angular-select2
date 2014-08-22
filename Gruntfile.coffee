@@ -73,11 +73,11 @@ module.exports = (grunt) ->
 
         protractor:
             options:
-                keepAlive: true
                 noColor: false
             dev:
                 configFile: 'test-config.js'
                 options:
+                    keepAlive: true
                     args:
                         chromeOnly: true
             ci:
@@ -112,7 +112,6 @@ module.exports = (grunt) ->
         protractorConfig['ci_' + index] = {
             configFile: 'test-config.js'
             options:
-                keepAlive: false
                 args:
                     sauceUser: process.env.SAUCE_USERNAME
                     sauceKey: process.env.SAUCE_ACCESS_KEY
