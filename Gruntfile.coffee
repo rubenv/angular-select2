@@ -80,6 +80,11 @@ module.exports = (grunt) ->
                 options:
                     args:
                         chromeOnly: true
+            ci:
+                configFile: 'test-config.js'
+                options:
+                    args:
+                        browser: 'firefox'
 
         bump:
             options:
@@ -120,4 +125,5 @@ module.exports = (grunt) ->
     @registerTask 'default', ['test']
     @registerTask 'build', ['clean', 'jshint', 'jscs', 'concat', 'ngAnnotate', 'uglify']
     @registerTask 'test', ['build', 'shell:protractor_update', 'connect:e2e', 'protractor:dev', 'watch:all']
-    @registerTask 'ci', ['build', 'shell:protractor_update', 'sauce_tunnel', 'connect:e2e', 'ci_saucelabs']
+    @registerTask 'ci', ['build', 'shell:protractor_update', 'connect:e2e', 'protractor:ci']
+    @registerTask 'saucelabs', ['build', 'shell:protractor_update', 'sauce_tunnel', 'connect:e2e', 'ci_saucelabs']
