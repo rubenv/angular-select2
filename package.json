@@ -7,7 +7,8 @@
     "test": "test"
   },
   "scripts": {
-    "test": "grunt ci"
+    "test": "grunt ci",
+    "prepublish": "grunt build"
   },
   "keywords": [
     "angular",
@@ -15,8 +16,8 @@
   ],
   "author": {
     "name": "Ruben Vermeersch",
-    "email": "ruben@savanne.be",
-    "url": "http://savanne.be/"
+    "email": "ruben@rocketeer.be",
+    "url": "http://rocketeer.be/"
   },
   "license": "MIT",
   "devDependencies": {
@@ -29,12 +30,12 @@
     "grunt-contrib-uglify": "~0.2.2",
     "grunt-contrib-watch": "~0.6.1",
     "grunt-jscs": "^0.6.2",
-    "grunt-ngmin": "0.0.3",
-    "grunt-protractor-runner": "~0.2.4",
+    "grunt-ng-annotate": "^0.3.2",
+    "grunt-protractor-runner": "1.1.0",
     "grunt-sauce-tunnel": "^0.2.0",
     "grunt-shell": "^0.6.4",
     "open-sauce-browsers": "git://github.com/rubenv/open-sauce-browsers",
-    "protractor": "~0.21.0"
+    "protractor": "~1.1.1"
   },
   "repository": {
     "type": "git",
