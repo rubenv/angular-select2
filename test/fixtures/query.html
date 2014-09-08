@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="/bower_components/select2/select2.css" />
+
+        <script src="/bower_components/jquery/dist/jquery.js"></script>
+        <script src="/bower_components/select2/select2.js"></script>
+        <script src="/bower_components/angular/angular.js"></script>
+        <script src="/dist/angular-select2.js"></script>
+        <script src="app.js"></script>
+    </head>
+    <body ng-app="testapp">
+        <div ng-controller="TestController">
+            <form>
+                <fieldset id="query">
+                    <label>Query</label>
+
+                    <input id="queryText" type="text" ng-model="values.query" />
+                    <select2 id="querySelect2" ng-model="values.query" options="queryOptions"></select2>
+                </fieldset>
+            </form>
+        </div>
+    </body>
+</html>

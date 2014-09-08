@@ -133,14 +133,23 @@ m.directive('select2', function ($rootScope, $timeout, $parse, select2Config) {
                     throw new Error('You need to supply a query function!');
                 }
 
+                var queryFn = opts.query;
+                opts.query = function (query) {
+                    var cb = query.callback;
+                    query.callback = function (data) {
+                        for (var i = 0; i < data.results.length; i++) {
+                            var result = data.results[i];
+                            optionValues[result.id] = result.id;
+                        }
+                        cb(data);
+                    };
+                    queryFn(query);
+                };
+
                 getOptions = function (callback) {
                     opts.query({
                         term: '',
                         callback: function (query) {
-                            for (var i = 0; i < query.results.length; i++) {
-                                var result = query.results[i];
-                                optionValues[result.id] = result.id;
-                            }
                             callback(query.results);
                         }
                     });

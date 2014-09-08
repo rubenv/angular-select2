@@ -39,7 +39,8 @@ angular.module('testapp', ['rt.select2']).controller('TestController', function 
         single: "1",
         singleInt: 1,
         multiple: ["1", "3"],
-        multipleInt: [1, 3]
+        multipleInt: [1, 3],
+        query: 1,
     };
 
     $scope.selectOptions = {
@@ -50,6 +51,26 @@ angular.module('testapp', ['rt.select2']).controller('TestController', function 
                     { id: "2", text: "B" }
                 ]
             });
+        }
+    };
+
+    $scope.queryOptions = {
+        query: function (query) {
+            if (query.term === "T") {
+                query.callback({
+                    results: [
+                        { id: 3, text: "C" },
+                        { id: 4, text: "D" }
+                    ]
+                });
+            } else {
+                query.callback({
+                    results: [
+                        { id: 1, text: "A" },
+                        { id: 2, text: "B" }
+                    ]
+                });
+            }
         }
     };
 });
