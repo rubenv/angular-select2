@@ -37,7 +37,7 @@ describe('Multiple Array', function () {
 
         this.removeOption = function () {
             element.all(by.css('.select2-search-choice-close')).get(0).click();
-            //browser.sleep(100);
+            browser.sleep(100);
         };
 
         this.get();
