@@ -1,7 +1,7 @@
-angular.module('rt.select2', [])
-    .value('select2Config', {})
-    .directive('select2', ["$rootScope", "$timeout", "$parse", "select2Config", function ($rootScope, $timeout, $parse, select2Config) {
-        'use strict';
+angular.module("rt.select2", [])
+    .value("select2Config", {})
+    .directive("select2", ["$rootScope", "$timeout", "$parse", "select2Config", function ($rootScope, $timeout, $parse, select2Config) {
+        "use strict";
 
         function sortedKeys(obj) {
             var keys = [];
@@ -22,10 +22,10 @@ angular.module('rt.select2', [])
         }
 
         return {
-            require: 'ngModel',
+            require: "ngModel",
             priority: 1,
-            restrict: 'E',
-            template: '<input type="hidden"></input>',
+            restrict: "E",
+            template: "<input type=\"hidden\"></input>",
             replace: true,
             link: function (scope, element, attrs, controller) {
                 var getOptions;
@@ -51,7 +51,7 @@ angular.module('rt.select2', [])
                 if (attrs.ngOptions) {
                     var match;
                     if (!(match = attrs.ngOptions.match(NG_OPTIONS_REGEXP))) {
-                        throw new Error('Invalid ngOptions encountered!');
+                        throw new Error("Invalid ngOptions encountered!");
                     }
 
                     var displayFn = $parse(match[2] || match[1]);
@@ -75,7 +75,7 @@ angular.module('rt.select2', [])
                             locals[valueName] = values[key];
 
                             var value = valueFn(scope, locals);
-                            var label = displayFn(scope, locals) || '';
+                            var label = displayFn(scope, locals) || "";
 
                             // Select2 returns strings, we use a dictionary to get
                             // back to the original value.
@@ -106,7 +106,7 @@ angular.module('rt.select2', [])
                             locals[valueName] = values[key];
 
                             var value = valueFn(scope, locals);
-                            var label = displayFn(scope, locals) || '';
+                            var label = displayFn(scope, locals) || "";
 
                             if (label.toLowerCase().indexOf(query.term.toLowerCase()) > -1) {
                                 options.push({
@@ -128,7 +128,7 @@ angular.module('rt.select2', [])
                     });
                 } else {
                     if (!opts.query) {
-                        throw new Error('You need to supply a query function!');
+                        throw new Error("You need to supply a query function!");
                     }
 
                     var queryFn = opts.query;
@@ -146,7 +146,7 @@ angular.module('rt.select2', [])
 
                     getOptions = function (callback) {
                         opts.query({
-                            term: '',
+                            term: "",
                             callback: function (query) {
                                 callback(query.results);
                             }
@@ -178,9 +178,9 @@ angular.module('rt.select2', [])
                 controller.$render = function () {
                     getSelection(function (selection) {
                         if (isMultiple) {
-                            element.select2('data', selection);
+                            element.select2("data", selection);
                         } else {
-                            element.select2('val', selection.id);
+                            element.select2("val", selection.id);
                         }
                     });
                 };
@@ -191,7 +191,7 @@ angular.module('rt.select2', [])
 
                 $timeout(function () {
                     element.select2(opts);
-                    element.on('change', function (e) {
+                    element.on("change", function (e) {
                         scope.$apply(function () {
                             if (isMultiple) {
                                 var vals = [];
