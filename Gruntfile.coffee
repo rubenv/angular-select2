@@ -80,6 +80,12 @@ module.exports = (grunt) ->
                     keepAlive: true
                     args:
                         chromeOnly: true
+            dev_firefox:
+                configFile: 'test-config.js'
+                options:
+                    keepAlive: true
+                    args:
+                        browser: 'firefox'
             ci:
                 configFile: 'test-config.js'
                 options:
