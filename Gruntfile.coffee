@@ -39,7 +39,7 @@ module.exports = (grunt) ->
         concat:
             dist:
                 files:
-                    'dist/<%= config.name %>.js': ['src/prefix', 'src/*.js', 'src/suffix']
+                    'dist/<%= config.name %>.js': ['src/*.js']
 
         uglify:
             dist:
