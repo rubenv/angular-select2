@@ -27,7 +27,7 @@ describe('Clear', function () {
         };
 
         this.clearValue = function () {
-            element(by.css('.select2-search-choice-close')).click();
+            element.all(by.css('.select2-search-choice-close')).get(0).click();
         };
 
         this.get();

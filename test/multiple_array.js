@@ -36,8 +36,8 @@ describe('Multiple Array', function () {
         };
 
         this.removeOption = function () {
-            element(by.css('.select2-search-choice-close')).click();
-            browser.sleep(100);
+            element.all(by.css('.select2-search-choice-close')).get(0).click();
+            //browser.sleep(100);
         };
 
         this.get();
