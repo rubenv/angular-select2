@@ -41,5 +41,6 @@ describe('Query', function () {
         page.search.sendKeys('T');
         page.search.sendKeys(protractor.Key.ENTER);
         expect(page.getInputValue()).toEqual('3');
+        expect(page.getChosenLabel().getText()).toEqual('C');
     });
 });

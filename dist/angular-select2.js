@@ -41,12 +41,13 @@ angular.module("rt.select2", [])
 
                 var modelFn = $parse(attrs.ngModel);
 
-                // All values returned from Select2 are strings. This is a problem
-                // if you supply integer indexes: they'll become strings once
-                // passing through this directive. We keep a mapping between string
-                // keys and values the optionValues object, to be able to return
-                // the correctly typed value.
-                var optionValues = {};
+                // All values returned from Select2 are strings. This is a
+                // problem if you supply integer indexes: they'll become
+                // strings once passing through this directive. We keep a
+                // mapping between string keys and values through the
+                // optionItems object, to be able to return the correctly typed
+                // value.
+                var optionItems = {};
 
                 if (attrs.ngOptions) {
                     var match;
@@ -79,13 +80,13 @@ angular.module("rt.select2", [])
 
                             // Select2 returns strings, we use a dictionary to get
                             // back to the original value.
-                            optionValues[value] = value;
-
-                            options.push({
+                            optionItems[value] = {
                                 id: value,
                                 text: label,
                                 obj: values[key]
-                            });
+                            };
+
+                            options.push(optionItems[value]);
                         }
 
                         callback(options);
@@ -137,7 +138,7 @@ angular.module("rt.select2", [])
                         query.callback = function (data) {
                             for (var i = 0; i < data.results.length; i++) {
                                 var result = data.results[i];
-                                optionValues[result.id] = result.id;
+                                optionItems[result.id] = result;
                             }
                             cb(data);
                         };
@@ -155,24 +156,23 @@ angular.module("rt.select2", [])
                 }
 
                 function getSelection(callback) {
-                    getOptions(function (options) {
-                        var selection = [];
-                        for (var i = 0; i < options.length; i++) {
-                            var option = options[i];
-                            if (isMultiple) {
+                    if (isMultiple) {
+                        getOptions(function (options) {
+                            var selection = [];
+                            for (var i = 0; i < options.length; i++) {
+                                var option = options[i];
                                 var viewValue = controller.$viewValue || [];
                                 if (viewValue.indexOf(option.id) > -1) {
                                     selection.push(option);
                                 }
-                            } else {
-                                if (optionValues[controller.$viewValue] === option.id) {
-                                    callback(option);
-                                    return;
-                                }
                             }
-                        }
-                        callback(selection);
-                    });
+                            callback(selection);
+                        });
+                    } else {
+                        getOptions(function () {
+                            callback(optionItems[controller.$viewValue] || {});
+                        });
+                    }
                 }
 
                 controller.$render = function () {
@@ -193,14 +193,19 @@ angular.module("rt.select2", [])
                     element.select2(opts);
                     element.on("change", function (e) {
                         scope.$apply(function () {
+                            var val;
                             if (isMultiple) {
                                 var vals = [];
                                 for (var i = 0; i < e.val.length; i++) {
-                                    vals[i] = optionValues[e.val[i]];
+                                    val = optionItems[e.val[i]];
+                                    if (val) {
+                                        vals.push(val.id);
+                                    }
                                 }
                                 modelFn.assign(scope, vals);
                             } else {
-                                modelFn.assign(scope, optionValues[e.val]);
+                                val = optionItems[e.val];
+                                modelFn.assign(scope, val ? val.id : null);
                             }
                         });
                     });
