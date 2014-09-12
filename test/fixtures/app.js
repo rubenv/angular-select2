@@ -1,24 +1,24 @@
-angular.module('testapp', ['rt.select2']).controller('TestController', function ($scope) {
+angular.module("testapp", ["rt.select2"]).controller("TestController", function ($scope) {
     $scope.singleOptions = {
-        "1": "One",
-        "2": "Two"
+        1: "One",
+        2: "Two"
     };
 
     $scope.singleOptionsArray = [
         { key: "1", value: "One" },
         { key: "2", value: "Two" },
     ];
-    
+
     $scope.singleIntOptionsArray = [
         { key: 1, value: "One" },
         { key: 2, value: "Two" },
     ];
-    
+
     $scope.multipleOptions = {
-        "1": "One",
-        "2": "Two",
-        "3": "Three",
-        "4": "Four"
+        1: "One",
+        2: "Two",
+        3: "Three",
+        4: "Four"
     };
 
     $scope.multipleOptionsArray = [
