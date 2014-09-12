@@ -24,8 +24,60 @@ angular.module('myApp', ['rt.select2']);
 ```
 
 ## Usage
+Usage a similar to a normal select with `ngOptions`:
 
-TODO
+```html
+<select2 ng-model="obj.field" ng-options="val.id as val.name for val in values"></select2>
+```
+
+In fact, you can replace any `<select>` tag by a `<select2>` tag and it should just work.
+
+A multi-selection works similarly: add a `multiple` attribute.
+
+You can set any [select2](http://ivaynberg.github.io/select2/) option by passing an options object:
+
+```html
+<select2 ng-model="obj.field" ng-options="val.id as val.name for val in values" options="{ allowClear: true }"></select2>
+```
+
+## Async loading of data
+Async-loaded data can by used by leaving out the `ng-options` attribute and by specifying a `query` function:
+
+```js
+angular.module('myApp').controller('MyController', function ($scope) {
+    $scope.selectOptions = {
+        query: function (query) {
+            var data = {
+                results: [
+                    { id: "1", text: "A" },
+                    { id: "2", text: "B" }
+                ]
+            };
+
+            query.callback(data);
+        }
+    };
+});
+```
+
+```html
+<select2 ng-model="values.query" options="queryOptions"></select2>
+```
+
+## Custom formatting, restrictions, tokenization, ...
+This directive is just simple glue to the underlying select2.
+
+[Check the select2 documentation for an overview of the full capabilities.](http://ivaynberg.github.io/select2/)
+
+## Configuring global defaults
+You can set a default for any option value by using `select2Config`:
+
+```js
+angular.module("myApp").run(function (select2Config) {
+    select2Config.minimumResultsForSearch = 7;
+    select2Config.dropdownAutoWidth = true;
+});
+```
 
 ## License 
 
