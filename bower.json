@@ -8,7 +8,7 @@
     "node_modules",
     "bower_components",
     "test",
-    "Gruntfile.coffee"
+    "Gruntfile.js"
   ],
   "dependencies": {
     "angular": "~1.2.4",
