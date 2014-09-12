@@ -2,8 +2,6 @@
 
 > [select2](http://ivaynberg.github.io/select2/) bindings for Angular.JS
 
-[![Build Status](https://travis-ci.org/rubenv/angular-select2.png?branch=master)](https://travis-ci.org/rubenv/angular-select2)
-
 ## Installation
 Add angular-select2 to your project:
 
