@@ -170,7 +170,7 @@ angular.module("rt.select2", [])
                         });
                     } else {
                         getOptions(function () {
-                            callback(optionItems[controller.$viewValue] || {});
+                            callback(optionItems[controller.$viewValue] || { obj: {} });
                         });
                     }
                 }
