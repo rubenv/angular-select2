@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="/bower_components/select2/select2.css" />
+
+        <script src="/bower_components/jquery/dist/jquery.js"></script>
+        <script src="/bower_components/select2/select2.js"></script>
+        <script src="/bower_components/angular/angular.js"></script>
+        <script src="/dist/angular-select2.js"></script>
+        <script src="app.js"></script>
+    </head>
+    <body ng-app="testapp">
+        <div ng-controller="TestController">
+            <form>
+                <fieldset id="filter">
+                    <label>Filter</label>
+
+                    <input id="filterText" type="text" ng-model="values.single" />
+                    <select2 id="filterSelect2" ng-model="values.single" ng-options="obj.key as obj.value for obj in singleOptionsArray" options-filter="{ key: '2' }"></select2>
+                </fieldset>
+            </form>
+        </div>
+    </body>
+</html>
