@@ -43,7 +43,7 @@ Async-loaded data can by used by leaving out the `ng-options` attribute and by s
 
 ```js
 angular.module('myApp').controller('MyController', function ($scope) {
-    $scope.selectOptions = {
+    $scope.queryOptions = {
         query: function (query) {
             var data = {
                 results: [
