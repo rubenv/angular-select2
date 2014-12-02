@@ -41,6 +41,7 @@ angular.module("testapp", ["rt.select2"]).controller("TestController", function 
         multiple: ["1", "3"],
         multipleInt: [1, 3],
         query: 1,
+        init: 5
     };
 
     $scope.selectOptions = {
@@ -71,6 +72,20 @@ angular.module("testapp", ["rt.select2"]).controller("TestController", function 
                     ]
                 });
             }
+        }
+    };
+
+    $scope.initOptions = {
+        query: function (query) {
+            query.callback({
+                results: [
+                    { id: 1, text: "A" },
+                    { id: 2, text: "B" }
+                ]
+            });
+        },
+        initSelection: function (element, callback) {
+            callback({ id: 5, text: "INIT" });
         }
     };
 });

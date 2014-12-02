@@ -200,9 +200,19 @@ angular.module("rt.select2", [])
                     });
                 };
 
-                opts.initSelection = function (element, callback) {
-                    getSelection(callback);
-                };
+                if (!opts.initSelection) {
+                    opts.initSelection = function (element, callback) {
+                        getSelection(callback);
+                    };
+                } else {
+                    var _initSelection = opts.initSelection;
+                    opts.initSelection = function (element, callback) {
+                        _initSelection(element, function (result) {
+                            optionItems[result.id] = result;
+                            callback(result);
+                        });
+                    };
+                }
 
                 $timeout(function () {
                     element.select2(opts);
