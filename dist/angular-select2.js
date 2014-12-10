@@ -1,28 +1,24 @@
 angular.module("rt.select2", [])
     .value("select2Config", {})
     .factory("select2Stack", function () {
-        var select2Stack = {
-            $$stack: []
-        };
+        var stack = [];
 
-        select2Stack.$register = function (callbackElem) {
-            select2Stack.$$stack.push(callbackElem);
-        };
-
-        select2Stack.$unregister = function (callbackElem) {
-            var idx = select2Stack.$$stack.indexOf(callbackElem);
-            if (idx !== -1) {
-                select2Stack.$$stack.splice(idx, 1);
+        return {
+            $register: function (callbackElem) {
+                stack.push(callbackElem);
+            },
+            $unregister: function (callbackElem) {
+                var idx = stack.indexOf(callbackElem);
+                if (idx !== -1) {
+                    stack.splice(idx, 1);
+                }
+            },
+            closeAll: function () {
+                stack.forEach(function (elem) {
+                    elem.close();
+                });
             }
         };
-
-        select2Stack.closeAll = function () {
-            select2Stack.$$stack.forEach(function (elem) {
-                elem.close();
-            });
-        };
-
-        return select2Stack;
     })
     .directive("select2", ["$rootScope", "$timeout", "$parse", "$filter", "select2Config", "select2Stack", function ($rootScope, $timeout, $parse, $filter, select2Config, select2Stack) {
         "use strict";
