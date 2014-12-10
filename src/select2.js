@@ -1,6 +1,30 @@
 angular.module("rt.select2", [])
     .value("select2Config", {})
-    .directive("select2", function ($rootScope, $timeout, $parse, $filter, select2Config) {
+    .factory("select2Stack", function () {
+        var select2Stack = {
+            $$stack: []
+        };
+
+        select2Stack.$register = function (callbackElem) {
+            select2Stack.$$stack.push(callbackElem);
+        };
+
+        select2Stack.$unregister = function (callbackElem) {
+            var idx = select2Stack.$$stack.indexOf(callbackElem);
+            if (idx !== -1) {
+                select2Stack.$$stack.splice(idx, 1);
+            }
+        };
+
+        select2Stack.closeAll = function () {
+            select2Stack.$$stack.forEach(function (elem) {
+                elem.close();
+            });
+        };
+
+        return select2Stack;
+    })
+    .directive("select2", function ($rootScope, $timeout, $parse, $filter, select2Config, select2Stack) {
         "use strict";
 
         var filter = $filter("filter");
@@ -213,6 +237,17 @@ angular.module("rt.select2", [])
                         });
                     };
                 }
+
+                // register with the select2stack
+                var controlObj = {
+                    close: function () {
+                        element.select2("close");
+                    }
+                };
+                select2Stack.$register(controlObj);
+                scope.$on("destroy", function () {
+                    select2Stack.$unregister(controlObj);
+                });
 
                 $timeout(function () {
                     element.select2(opts);
