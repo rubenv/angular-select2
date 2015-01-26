@@ -267,8 +267,7 @@ angular.module("rt.select2", [])
                     });
 
                     element.on("select2-blur", function () {
-                        if (controller.$touched)
-                        {
+                        if (controller.$touched) {
                             return;
                         }
 
