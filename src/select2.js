@@ -265,6 +265,13 @@ angular.module("rt.select2", [])
                             }
                         });
                     });
+
+                    element.on("select2-blur", function(e) {
+                        if (controller.$touched) return;
+
+                        scope.$apply(controller.$setTouched);
+                    });
+
                     controller.$render();
                 });
             }
