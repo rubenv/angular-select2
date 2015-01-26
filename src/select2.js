@@ -266,7 +266,7 @@ angular.module("rt.select2", [])
                         });
                     });
 
-                    element.on("select2-blur", function() {
+                    element.on("select2-blur", function () {
                         if (controller.$touched)
                         {
                             return;
