@@ -61,8 +61,6 @@ angular.module("rt.select2", [])
                     opts.placeholder = attrs.placeholder;
                 }
 
-                var modelFn = $parse(attrs.ngModel);
-
                 var filterOptions = $parse(attrs.optionsFilter);
 
                 // All values returned from Select2 are strings. This is a
@@ -258,11 +256,14 @@ angular.module("rt.select2", [])
                                         vals.push(val.id);
                                     }
                                 }
-                                modelFn.assign(scope, vals);
+                                controller.$setViewValue(vals);
                             } else {
                                 val = optionItems[e.val];
-                                modelFn.assign(scope, val ? val.id : null);
+                                controller.$setViewValue(val ? val.id : null);
                             }
+
+                            controller.$render();
+
                         });
                     });
 
