@@ -81,7 +81,7 @@ angular.module("myApp").run(function (select2Config) {
 
     (The MIT License)
 
-    Copyright (C) 2013-2014 by Ruben Vermeersch <ruben@rocketeer.be>
+    Copyright (C) 2013-2015 by Ruben Vermeersch <ruben@rocketeer.be>
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
