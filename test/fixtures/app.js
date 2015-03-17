@@ -35,6 +35,13 @@ angular.module("testapp", ["rt.select2"]).controller("TestController", function 
         { key: 4, value: "Four" },
     ];
 
+    $scope.eventsOptions = [
+        { key: 1, value: "One" },
+        { key: 2, value: "Two" },
+        { key: 3, value: "Three" },
+        { key: 4, value: "Four" },
+    ];
+
     $scope.values = {
         single: "1",
         singleInt: 1,
@@ -87,5 +94,9 @@ angular.module("testapp", ["rt.select2"]).controller("TestController", function 
         initSelection: function (element, callback) {
             callback({ id: 5, text: "INIT" });
         }
+    };
+
+    $scope.limitToSubset = function (l) {
+        $scope.eventsOptions = $scope.eventsOptions.slice(0, l);
     };
 });

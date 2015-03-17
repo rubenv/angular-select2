@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="/bower_components/select2/select2.css" />
+
+        <script src="/bower_components/jquery/dist/jquery.js"></script>
+        <script src="/bower_components/select2/select2.js"></script>
+        <script src="/bower_components/angular/angular.js"></script>
+        <script src="/dist/angular-select2.js"></script>
+        <script src="app.js"></script>
+
+        <style>
+            .select2-container {
+                width: 100px;
+            }
+        </style>
+    </head>
+    <body ng-app="testapp">
+        <div ng-controller="TestController">
+            <form>
+                <fieldset>
+                    <select2 id="simpleSelect2" ng-model="values.cleared" ng-options="obj.key as obj.value for obj in myOptions"></select2>
+                    <button id="limit" ng-click="limitToSubset(2)">Limit to first two options</button>
+                    <button id="choose_4" onclick="jQuery('#simpleSelect2').val(4).trigger(jQuery.Event('change', { val: 4 } ))">Select Four</button>
+                </fieldset>
+            </form>
+        </div>
+    </body>
+</html>
+

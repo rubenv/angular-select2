@@ -95,6 +95,7 @@ angular.module("rt.select2", [])
                     var keyName = match[5];
 
                     getOptions = function (callback) {
+                        optionItems = {};
                         var values = filterValues(valuesFn(scope));
                         var keys = (keyName ? sortedKeys(values) : values) || [];
 
