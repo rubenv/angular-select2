@@ -245,7 +245,11 @@ angular.module("rt.select2", [])
                 });
 
                 $timeout(function () {
-                    element.select2(opts);
+                    var select2Element = element.select2(opts);
+                    var select2Focusser = select2Element.select2("container").find(".select2-focusser");
+                    if(element.attr("required") && select2Focusser){
+                        $(select2Focusser).attr('required', '');
+                    }
                     element.on("change", function (e) {
                         scope.$apply(function () {
                             var val;
@@ -261,6 +265,10 @@ angular.module("rt.select2", [])
                             } else {
                                 val = optionItems[e.val];
                                 controller.$setViewValue(val ? val.id : null);
+                            }
+                            
+                            if(element.attr("required") && select2Focusser){
+                                $(select2Focusser).removeAttr('required');
                             }
 
                             controller.$render();
