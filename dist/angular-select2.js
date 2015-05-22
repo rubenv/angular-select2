@@ -202,19 +202,22 @@ angular.module("rt.select2", [])
                     if (isMultiple) {
                         getOptions(function (options) {
                             var selection = [];
-                            for (var i = 0; i < options.length; i++) {
-                                var option = options[i];
-                                var viewValue = controller.$viewValue || [];
-                                if (option.children) {
-                                    for (var j = 0; j < option.children.length; j++) {
-                                        var child = option.children[j];
-                                        if (viewValue.indexOf(child.id) > -1) {
-                                            selection.push(child);
+                            var viewValue = controller.$viewValue || [];
+
+                            for(var k = 0; k < viewValue.length; k++){
+                                for (var i = 0; i < options.length; i++) {
+                                    var option = options[i];
+                                    if (option.children) {
+                                        for (var j = 0; j < option.children.length; j++) {
+                                            var child = option.children[j];
+                                            if (viewValue[k].id == child.id) {
+                                                selection.push(child);
+                                            }
                                         }
-                                    }
-                                } else {
-                                    if (viewValue.indexOf(option.id) > -1) {
-                                        selection.push(option);
+                                    }else {
+                                        if (viewValue[k].id == option.id) {
+                                            selection.push(option);
+                                        }
                                     }
                                 }
                             }
@@ -277,7 +280,7 @@ angular.module("rt.select2", [])
                                 for (var i = 0; i < e.val.length; i++) {
                                     val = optionItems[e.val[i]];
                                     if (val) {
-                                        vals.push(val.id);
+                                        vals.push(val.obj);
                                     }
                                 }
                                 controller.$setViewValue(vals);
