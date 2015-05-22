@@ -144,12 +144,13 @@ angular.module("rt.select2", [])
                             var label = displayFn(scope, locals) || "";
 
                             if (label.toLowerCase().indexOf(query.term.toLowerCase()) > -1) {
-                                options.push({
+                                optionItems[value] = {
                                     id: value,
                                     text: label,
                                     obj: values[key]
-                                });
+                                };
                             }
+                            options.push(optionItems[value]);
                         }
 
                         query.callback({
@@ -172,7 +173,15 @@ angular.module("rt.select2", [])
                         query.callback = function (data) {
                             for (var i = 0; i < data.results.length; i++) {
                                 var result = data.results[i];
-                                optionItems[result.id] = result;
+                                if (result.children) {
+                                    for (var c = 0; c < result.children.length; c++) {
+                                        var child = result.children[c];
+                                        optionItems[child.id] = child;
+                                        optionItems[child.id].obj = child.obj;
+                                    }
+                                } else {
+                                    optionItems[result.id] = result;
+                                }
                             }
                             cb(data);
                         };
@@ -196,8 +205,17 @@ angular.module("rt.select2", [])
                             for (var i = 0; i < options.length; i++) {
                                 var option = options[i];
                                 var viewValue = controller.$viewValue || [];
-                                if (viewValue.indexOf(option.id) > -1) {
-                                    selection.push(option);
+                                if (option.children) {
+                                    for (var j = 0; j < option.children.length; j++) {
+                                        var child = option.children[j];
+                                        if (viewValue.indexOf(child.id) > -1) {
+                                            selection.push(child);
+                                        }
+                                    }
+                                } else {
+                                    if (viewValue.indexOf(option.id) > -1) {
+                                        selection.push(option);
+                                    }
                                 }
                             }
                             callback(selection);
@@ -245,7 +263,12 @@ angular.module("rt.select2", [])
                 });
 
                 $timeout(function () {
-                    element.select2(opts);
+                    var select2Element = element.select2(opts);
+                    var select2Focusser = select2Element.select2("container").find(".select2-focusser");
+
+                    if (element.attr("required") && select2Focusser) {
+                        select2Focusser.attr("required", "");
+                    }
                     element.on("change", function (e) {
                         scope.$apply(function () {
                             var val;
@@ -261,6 +284,9 @@ angular.module("rt.select2", [])
                             } else {
                                 val = optionItems[e.val];
                                 controller.$setViewValue(val ? val.id : null);
+                            }
+                            if (element.attr("required") && select2Focusser) {
+                                select2Focusser.removeAttr("required");
                             }
 
                             controller.$render();
