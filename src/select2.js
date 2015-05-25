@@ -20,6 +20,49 @@ angular.module("rt.select2", [])
             }
         };
     })
+    .filter("groupByForSelect2", ["$parse", function ($parse) {
+        return function (collection, property, label, parentObjProperty) {
+
+            if (!angular.isObject(collection) || angular.isUndefined(property)) {
+                return collection;
+            }
+
+            var getterFn = $parse(property);
+            var getterFnParentObj = $parse(parentObjProperty);
+            var preResult = {};
+            var result = [];
+            var prop;
+            var parentObj;
+
+            angular.forEach(collection, function (elm) {
+                prop = getterFn(elm);
+
+                parentObj = getterFnParentObj(elm);
+
+                if (!preResult[prop]) {
+                    preResult[prop] = {
+                        text: prop,
+                        obj: parentObj,
+                        children: []
+                    };
+                }
+
+                var object = {
+                    id: elm.id,
+                    text: elm[label],
+                    obj: elm
+                };
+
+                preResult[prop].children.push(object);
+            });
+
+            angular.forEach(preResult, function (elm) {
+                result.push(elm);
+            });
+
+            return result;
+        };
+    }])
     .directive("select2", function ($rootScope, $timeout, $parse, $filter, select2Config, select2Stack) {
         "use strict";
 
