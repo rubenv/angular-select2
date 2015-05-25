@@ -225,19 +225,19 @@ angular.module("rt.select2", [])
 
                                     for (var c = 0; c < result.children.length; c++) {
                                         var child = result.children[c];
-                                        if(child.text.toLowerCase().indexOf(query.term.toLowerCase()) > -1){
+                                        if (child.text.toLowerCase().indexOf(query.term.toLowerCase()) > -1){
                                             optionItems[child.id] = child;
                                             optionItems[child.id].obj = child.obj;
                                             objResult.children.push(child);
                                         }
                                     }
 
-                                    if(objResult.children.length > 0){
+                                    if (objResult.children.length > 0){
                                         searchResult.push(objResult);
                                     }
 
                                 } else {
-                                    if(result.text.toLowerCase().indexOf(query.term.toLowerCase()) > -1){
+                                    if (result.text.toLowerCase().indexOf(query.term.toLowerCase()) > -1){
                                         searchResult.push(result);
                                     }
                                     optionItems[result.id] = result;

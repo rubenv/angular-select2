@@ -79,7 +79,7 @@ angular.module("rt.select2", [])
         }
 
         var defaultOptions = {};
-                               //0000111110000000000022220000000000000000000000333300000000000000444444444444444000000000555555555555555000000066666666666666600000000000000007777000000000000000000088888
+        //0000111110000000000022220000000000000000000000333300000000000000444444444444444000000000555555555555555000000066666666666666600000000000000007777000000000000000000088888
         var NG_OPTIONS_REGEXP = /^\s*(.*?)(?:\s+as\s+(.*?))?(?:\s+group\s+by\s+(.*))?\s+for\s+(?:([\$\w][\$\w]*)|(?:\(\s*([\$\w][\$\w]*)\s*,\s*([\$\w][\$\w]*)\s*\)))\s+in\s+(.*?)(?:\s+track\s+by\s+(.*?))?$/;
 
         if (select2Config) {
@@ -214,18 +214,36 @@ angular.module("rt.select2", [])
                     opts.query = function (query) {
                         var cb = query.callback;
                         query.callback = function (data) {
+                            var searchResult = [];
+
                             for (var i = 0; i < data.results.length; i++) {
                                 var result = data.results[i];
+
                                 if (result.children) {
+                                    var objResult = angular.copy(result);
+                                    objResult.children = [];
+
                                     for (var c = 0; c < result.children.length; c++) {
                                         var child = result.children[c];
-                                        optionItems[child.id] = child;
-                                        optionItems[child.id].obj = child.obj;
+                                        if (child.text.toLowerCase().indexOf(query.term.toLowerCase()) > -1){
+                                            optionItems[child.id] = child;
+                                            optionItems[child.id].obj = child.obj;
+                                            objResult.children.push(child);
+                                        }
                                     }
+
+                                    if (objResult.children.length > 0){
+                                        searchResult.push(objResult);
+                                    }
+
                                 } else {
+                                    if (result.text.toLowerCase().indexOf(query.term.toLowerCase()) > -1){
+                                        searchResult.push(result);
+                                    }
                                     optionItems[result.id] = result;
                                 }
                             }
+                            data.results = searchResult;
                             cb(data);
                         };
                         queryFn(query);
