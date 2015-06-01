@@ -20,7 +20,50 @@ angular.module("rt.select2", [])
             }
         };
     })
-    .directive("select2", function ($rootScope, $timeout, $parse, $filter, select2Config, select2Stack) {
+    .filter("groupByForSelect2", ["$parse", function ($parse) {
+        return function (collection, property, label, parentObjProperty) {
+
+            if (!angular.isObject(collection) || angular.isUndefined(property)) {
+                return collection;
+            }
+
+            var getterFn = $parse(property);
+            var getterFnParentObj = $parse(parentObjProperty);
+            var preResult = {};
+            var result = [];
+            var prop;
+            var parentObj;
+
+            angular.forEach(collection, function (elm) {
+                prop = getterFn(elm);
+
+                parentObj = getterFnParentObj(elm);
+
+                if (!preResult[prop]) {
+                    preResult[prop] = {
+                        text: prop,
+                        obj: parentObj,
+                        children: []
+                    };
+                }
+
+                var object = {
+                    id: elm.id,
+                    text: elm[label],
+                    obj: elm
+                };
+
+                preResult[prop].children.push(object);
+            });
+
+            angular.forEach(preResult, function (elm) {
+                result.push(elm);
+            });
+
+            return result;
+        };
+    }])
+    .directive("select2", ["$rootScope", "$timeout", "$parse", "$filter", "select2Config", "select2Stack", function ($rootScope, $timeout, $parse, $filter, select2Config, select2Stack) {
         "use strict";
 
         var filter = $filter("filter");
@@ -36,7 +79,7 @@ angular.module("rt.select2", [])
         }
 
         var defaultOptions = {};
-                               //0000111110000000000022220000000000000000000000333300000000000000444444444444444000000000555555555555555000000066666666666666600000000000000007777000000000000000000088888
+        //0000111110000000000022220000000000000000000000333300000000000000444444444444444000000000555555555555555000000066666666666666600000000000000007777000000000000000000088888
         var NG_OPTIONS_REGEXP = /^\s*(.*?)(?:\s+as\s+(.*?))?(?:\s+group\s+by\s+(.*))?\s+for\s+(?:([\$\w][\$\w]*)|(?:\(\s*([\$\w][\$\w]*)\s*,\s*([\$\w][\$\w]*)\s*\)))\s+in\s+(.*?)(?:\s+track\s+by\s+(.*?))?$/;
 
         if (select2Config) {
@@ -51,6 +94,8 @@ angular.module("rt.select2", [])
             replace: true,
             link: function (scope, element, attrs, controller) {
                 var getOptions;
+
+                var byId = attrs.byid === "";
 
                 var opts = angular.extend({}, defaultOptions, scope.$eval(attrs.options));
                 var isMultiple = angular.isDefined(attrs.multiple) || opts.multiple;
@@ -144,12 +189,13 @@ angular.module("rt.select2", [])
                             var label = displayFn(scope, locals) || "";
 
                             if (label.toLowerCase().indexOf(query.term.toLowerCase()) > -1) {
-                                options.push({
+                                optionItems[value] = {
                                     id: value,
                                     text: label,
                                     obj: values[key]
-                                });
+                                };
                             }
+                            options.push(optionItems[value]);
                         }
 
                         query.callback({
@@ -170,10 +216,36 @@ angular.module("rt.select2", [])
                     opts.query = function (query) {
                         var cb = query.callback;
                         query.callback = function (data) {
+                            var searchResult = [];
+
                             for (var i = 0; i < data.results.length; i++) {
                                 var result = data.results[i];
-                                optionItems[result.id] = result;
+
+                                if (result.children) {
+                                    var objResult = angular.copy(result);
+                                    objResult.children = [];
+
+                                    for (var c = 0; c < result.children.length; c++) {
+                                        var child = result.children[c];
+                                        if (child.text.toLowerCase().indexOf(query.term.toLowerCase()) > -1){
+                                            optionItems[child.id] = child;
+                                            optionItems[child.id].obj = child.obj;
+                                            objResult.children.push(child);
+                                        }
+                                    }
+
+                                    if (objResult.children.length > 0){
+                                        searchResult.push(objResult);
+                                    }
+
+                                } else {
+                                    if (result.text.toLowerCase().indexOf(query.term.toLowerCase()) > -1){
+                                        searchResult.push(result);
+                                    }
+                                    optionItems[result.id] = result;
+                                }
                             }
+                            data.results = searchResult;
                             cb(data);
                         };
                         queryFn(query);
@@ -193,18 +265,39 @@ angular.module("rt.select2", [])
                     if (isMultiple) {
                         getOptions(function (options) {
                             var selection = [];
-                            for (var i = 0; i < options.length; i++) {
-                                var option = options[i];
-                                var viewValue = controller.$viewValue || [];
-                                if (viewValue.indexOf(option.id) > -1) {
-                                    selection.push(option);
+                            var viewValue = controller.$viewValue || [];
+
+                            angular.forEach(viewValue, function (elm) {
+                                for (var i = 0; i < options.length; i++) {
+                                    var option = options[i];
+                                    if (option.children) {
+                                        for (var j = 0; j < option.children.length; j++) {
+                                            var child = option.children[j];
+                                            if (elm.id === child.id || elm === child.id || elm.value === child.id) {
+                                                selection.push(child);
+                                            }
+                                        }
+                                    } else {
+                                        if (elm.id === option.id || elm === option.id || elm.value === option.id) {
+                                            selection.push(option);
+                                        }
+                                    }
                                 }
-                            }
+                            });
+
                             callback(selection);
                         });
                     } else {
                         getOptions(function () {
-                            callback(optionItems[controller.$viewValue] || { obj: {} });
+                            var selection = {};
+                            var viewValue = controller.$viewValue || {};
+
+                            angular.forEach(optionItems, function (elm) {
+                                if (elm.obj === viewValue || elm.id === viewValue){
+                                    selection = elm;
+                                }
+                            });
+                            callback(selection);
                         });
                     }
                 }
@@ -245,7 +338,12 @@ angular.module("rt.select2", [])
                 });
 
                 $timeout(function () {
-                    element.select2(opts);
+                    var select2Element = element.select2(opts);
+                    var select2Focusser = select2Element.select2("container").find(".select2-focusser");
+
+                    if (element.attr("required") && select2Focusser) {
+                        select2Focusser.attr("required", "");
+                    }
                     element.on("change", function (e) {
                         scope.$apply(function () {
                             var val;
@@ -254,13 +352,24 @@ angular.module("rt.select2", [])
                                 for (var i = 0; i < e.val.length; i++) {
                                     val = optionItems[e.val[i]];
                                     if (val) {
-                                        vals.push(val.id);
+                                        if (byId){
+                                            vals.push(val.id);
+                                        }else {
+                                            vals.push(val.obj);
+                                        }
                                     }
                                 }
                                 controller.$setViewValue(vals);
                             } else {
                                 val = optionItems[e.val];
-                                controller.$setViewValue(val ? val.id : null);
+                                if (byId){
+                                    controller.$setViewValue(val ? val.id : null);
+                                }else {
+                                    controller.$setViewValue(val ? val.obj : null);
+                                }
+                            }
+                            if (element.attr("required") && select2Focusser) {
+                                select2Focusser.removeAttr("required");
                             }
 
                             controller.$render();
@@ -280,4 +389,4 @@ angular.module("rt.select2", [])
                 });
             }
         };
-    });
+    }]);
