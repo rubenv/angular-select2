@@ -95,6 +95,8 @@ angular.module("rt.select2", [])
             link: function (scope, element, attrs, controller) {
                 var getOptions;
 
+                var byId = attrs.byid === "";
+
                 var opts = angular.extend({}, defaultOptions, scope.$eval(attrs.options));
                 var isMultiple = angular.isDefined(attrs.multiple) || opts.multiple;
 
@@ -271,12 +273,12 @@ angular.module("rt.select2", [])
                                     if (option.children) {
                                         for (var j = 0; j < option.children.length; j++) {
                                             var child = option.children[j];
-                                            if (elm.id === child.id) {
+                                            if (elm.id === child.id || elm === child.id || elm.value === child.id) {
                                                 selection.push(child);
                                             }
                                         }
                                     } else {
-                                        if (elm.id === option.id) {
+                                        if (elm.id === option.id || elm === option.id || elm.value === option.id) {
                                             selection.push(option);
                                         }
                                     }
@@ -287,7 +289,15 @@ angular.module("rt.select2", [])
                         });
                     } else {
                         getOptions(function () {
-                            callback(optionItems[controller.$viewValue] || { obj: {} });
+                            var selection = {};
+                            var viewValue = controller.$viewValue || {};
+
+                            angular.forEach(optionItems, function (elm) {
+                                if (elm.obj === viewValue || elm.id === viewValue){
+                                    selection = elm;
+                                }
+                            });
+                            callback(selection);
                         });
                     }
                 }
@@ -342,13 +352,21 @@ angular.module("rt.select2", [])
                                 for (var i = 0; i < e.val.length; i++) {
                                     val = optionItems[e.val[i]];
                                     if (val) {
-                                        vals.push(val.obj);
+                                        if (byId){
+                                            vals.push(val.id);
+                                        }else {
+                                            vals.push(val.obj);
+                                        }
                                     }
                                 }
                                 controller.$setViewValue(vals);
                             } else {
                                 val = optionItems[e.val];
-                                controller.$setViewValue(val ? val.obj : null);
+                                if (byId){
+                                    controller.$setViewValue(val ? val.id : null);
+                                }else {
+                                    controller.$setViewValue(val ? val.obj : null);
+                                }
                             }
                             if (element.attr("required") && select2Focusser) {
                                 select2Focusser.removeAttr("required");
