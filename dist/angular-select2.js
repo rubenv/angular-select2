@@ -304,10 +304,31 @@ angular.module("rt.select2", [])
 
                 controller.$render = function () {
                     getSelection(function (selection) {
+                        var select2Element;
+
                         if (isMultiple) {
-                            element.select2("data", selection);
+                            select2Element = element.select2("data", selection);
                         } else {
-                            element.select2("val", selection.id);
+                            select2Element = element.select2("val", selection.id);
+                        }
+
+                        var select2Focusser = select2Element.select2("container").find(".select2-focusser");
+                        var select2Focusser2 = select2Element.select2("container").find(".select2-input");
+
+                        if (element.attr("required")){
+                            if ( selection.length > 0 || selection.id){
+                                if ( select2Focusser.length){
+                                    select2Focusser.removeAttr("required");
+                                }else {
+                                    select2Focusser2.removeAttr("required");
+                                }
+                            }else {
+                                if ( select2Focusser.length){
+                                    select2Focusser.attr("required", "");
+                                }else {
+                                    select2Focusser2.attr("required", "");
+                                }
+                            }
                         }
                     });
                 };
@@ -340,10 +361,14 @@ angular.module("rt.select2", [])
                 $timeout(function () {
                     var select2Element = element.select2(opts);
                     var select2Focusser = select2Element.select2("container").find(".select2-focusser");
+                    var select2Focusser2 = select2Element.select2("container").find(".select2-input");
 
-                    if (element.attr("required") && select2Focusser) {
+                    if (element.attr("required") && select2Focusser.length) {
                         select2Focusser.attr("required", "");
+                    }else {
+                        select2Focusser2.attr("required", "");
                     }
+
                     element.on("change", function (e) {
                         scope.$apply(function () {
                             var val;
@@ -368,8 +393,21 @@ angular.module("rt.select2", [])
                                     controller.$setViewValue(val ? val.obj : null);
                                 }
                             }
-                            if (element.attr("required") && select2Focusser) {
-                                select2Focusser.removeAttr("required");
+
+                            if (element.attr("required")){
+                                if (e.val.length > 0){
+                                    if (select2Focusser.length){
+                                        select2Focusser.removeAttr("required");
+                                    }else {
+                                        select2Focusser2.removeAttr("required");
+                                    }
+                                }else {
+                                    if (select2Focusser.length){
+                                        select2Focusser.attr("required", "");
+                                    }else {
+                                        select2Focusser2.attr("required", "");
+                                    }
+                                }
                             }
 
                             controller.$render();
