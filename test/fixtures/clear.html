@@ -22,7 +22,7 @@
                     <label>Has clear button</label>
 
                     <input id="simpleText" type="text" ng-model="values.cleared" />
-                    <select2 id="simpleSelect2" ng-model="values.cleared" ng-options="id as name for (id, name) in singleOptions" options="{ allowClear: true, placeholder: 'None' }"></select2>
+                    <select2 id="simpleSelect2" ng-model="values.cleared" s2-options="id as name for (id, name) in singleOptions" options="{ allowClear: true, placeholder: 'None' }"></select2>
                 </fieldset>
             </form>
         </div>

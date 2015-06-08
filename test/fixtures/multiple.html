@@ -16,7 +16,7 @@
                     <label>Multiple select</label>
 
                     <input id="multipleText" type="text" ng-model="values.multiple" />
-                    <select2 id="multipleSelect2" ng-model="values.multiple" ng-options="id as name for (id, name) in multipleOptions" multiple></select2>
+                    <select2 id="multipleSelect2" ng-model="values.multiple" s2-options="id as name for (id, name) in multipleOptions" multiple></select2>
                     <button id="multipleChange" ng-click="values.multiple = ['2', '4']">Change!</button>
                 </fieldset>
             </form>

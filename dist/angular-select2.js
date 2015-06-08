@@ -82,10 +82,10 @@ angular.module("rt.select2", [])
                     return values;
                 }
 
-                if (attrs.ngOptions) {
+                if (attrs.s2Options) {
                     var match;
-                    if (!(match = attrs.ngOptions.match(NG_OPTIONS_REGEXP))) {
-                        throw new Error("Invalid ngOptions encountered!");
+                    if (!(match = attrs.s2Options.match(NG_OPTIONS_REGEXP))) {
+                        throw new Error("Invalid s2Options encountered!");
                     }
 
                     var displayFn = $parse(match[2] || match[1]);

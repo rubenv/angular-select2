@@ -25,8 +25,10 @@ angular.module('myApp', ['rt.select2']);
 Usage a similar to a normal select with `ngOptions`:
 
 ```html
-<select2 ng-model="obj.field" ng-options="val.id as val.name for val in values"></select2>
+<select2 ng-model="obj.field" s2-options="val.id as val.name for val in values"></select2>
 ```
+
+*Note: using `ng-options` was supported until Angular 1.4 made this impossible. When upgrading to Angular.JS 1.4, be sure to replace all instances of `ng-options` to `s2-options`.*
 
 In fact, you can replace any `<select>` tag by a `<select2>` tag and it should just work.
 
@@ -35,11 +37,11 @@ A multi-selection works similarly: add a `multiple` attribute.
 You can set any [select2](http://ivaynberg.github.io/select2/) option by passing an options object:
 
 ```html
-<select2 ng-model="obj.field" ng-options="val.id as val.name for val in values" options="{ allowClear: true }"></select2>
+<select2 ng-model="obj.field" s2-options="val.id as val.name for val in values" options="{ allowClear: true }"></select2>
 ```
 
 ## Async loading of data
-Async-loaded data can by used by leaving out the `ng-options` attribute and by specifying a `query` function:
+Async-loaded data can by used by leaving out the `s2-options` attribute and by specifying a `query` function:
 
 ```js
 angular.module('myApp').controller('MyController', function ($scope) {

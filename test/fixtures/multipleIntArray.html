@@ -16,7 +16,7 @@
                     <label>Multiple Int select</label>
 
                     <input id="multipleIntText" type="text" ng-model="values.multipleInt" />
-                    <select2 id="multipleIntSelect2" ng-model="values.multipleInt" ng-options="obj.key as obj.value for obj in multipleIntOptionsArray" multiple></select2>
+                    <select2 id="multipleIntSelect2" ng-model="values.multipleInt" s2-options="obj.key as obj.value for obj in multipleIntOptionsArray" multiple></select2>
                     <button id="multipleIntChange" ng-click="values.multipleInt = [2, 4]">Change!</button>
                 </fieldset>
             </form>

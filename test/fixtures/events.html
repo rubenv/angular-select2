@@ -19,7 +19,7 @@
         <div ng-controller="TestController">
             <form>
                 <fieldset>
-                    <select2 id="simpleSelect2" ng-model="values.cleared" ng-options="obj.key as obj.value for obj in myOptions"></select2>
+                    <select2 id="simpleSelect2" ng-model="values.cleared" s2-options="obj.key as obj.value for obj in myOptions"></select2>
                     <button id="limit" ng-click="limitToSubset(2)">Limit to first two options</button>
                     <button id="choose_4" onclick="jQuery('#simpleSelect2').val(4).trigger(jQuery.Event('change', { val: 4 } ))">Select Four</button>
                 </fieldset>
