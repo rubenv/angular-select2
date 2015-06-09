@@ -194,8 +194,8 @@ angular.module("rt.select2", [])
                                     text: label,
                                     obj: values[key]
                                 };
+                                options.push(optionItems[value]);
                             }
-                            options.push(optionItems[value]);
                         }
 
                         query.callback({
