@@ -363,10 +363,12 @@ angular.module("rt.select2", [])
                     var select2Focusser = select2Element.select2("container").find(".select2-focusser");
                     var select2Focusser2 = select2Element.select2("container").find(".select2-input");
 
-                    if (element.attr("required") && select2Focusser.length) {
-                        select2Focusser.attr("required", "");
-                    }else {
-                        select2Focusser2.attr("required", "");
+                    if (element.attr("required")){
+                        if (select2Focusser.length) {
+                            select2Focusser.attr("required", "");
+                        }else {
+                            select2Focusser2.attr("required", "");
+                        }
                     }
 
                     element.on("change", function (e) {
