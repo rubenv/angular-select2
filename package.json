@@ -41,7 +41,7 @@
     "type": "git",
     "url": "git://github.com/rubenv/angular-select2.git"
   },
-  "jspm" : {
-		"main": "dist/angular-select2"
-	}
+  "jspm": {
+    "main": "dist/angular-select2"
+  }
 }
