@@ -1,6 +1,6 @@
 # angular-select2
 
-> [select2](http://ivaynberg.github.io/select2/) bindings for Angular.JS
+> [select2](https://select2.github.io/) bindings for Angular.JS
 
 ## Installation
 Add angular-select2 to your project:
