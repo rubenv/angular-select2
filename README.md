@@ -22,16 +22,18 @@ angular.module('myApp', ['rt.select2']);
 ```
 
 ## Usage
+
+A JS Bin demo showing working usage examples are available [here](https://jsbin.com/gipezidemi/edit?html,js,output).
+
 Usage similar to a normal select:
 
 ```html
-<select2 ng-model="obj.field">
-    <option value="" ng-selected="{{obj.field === null}}">&lt;none&gt;</option>
-    <option ng-repeat="val in values"
-            value="{{val.id}}"
-            ng-selected="{{val.id == obj.field}}">
-        {{val.name}}
-    </option>
+<select2 ng-model="selected">
+  <option ng-repeat="val in values"
+          value="{{val.id}}"
+          ng-selected="{{val.id == selected}}">
+      {{val.name}}
+  </option>
 </select2>
 ```
 
@@ -42,7 +44,7 @@ A multi-selection works similarly: add a `multiple` attribute.
 You can set any [select2](http://ivaynberg.github.io/select2/) option by passing an options object:
 
 ```html
-<select2 ng-model="obj.field" options="{ allowClear: true }">
+<select2 ng-model="selected" options="{ allowClear: true }">
   ...
 </select2>
 ```
@@ -51,7 +53,10 @@ You can set any [select2](http://ivaynberg.github.io/select2/) option by passing
 Async-loaded data can by used by specifying an `ajax` configuration. The following example is adapted from the "Loading remote data" example on [https://select2.github.io/examples.html](https://select2.github.io/examples.html).
 
 ```js
-angular.module('myApp').controller('MyController', function ($scope) {
+angular.module('myApp').controller('MyAsyncController', function ($scope) {
+
+    /* ... omitted for brevity, see the JS bin ... */
+
     $scope.queryOptions = {
         ajax: {
             url: "https://api.github.com/search/repositories",
@@ -75,16 +80,14 @@ angular.module('myApp').controller('MyController', function ($scope) {
         },
         escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
         minimumInputLength: 1,
-        templateResult: formatRepo, // omitted for brevity, see the source of this page
-        templateSelection: formatRepoSelection // omitted for brevity, see the source of this page    
+        templateResult: formatRepo, // omitted for brevity
+        templateSelection: formatRepoSelection // omitted for brevity    
     };
 });
 ```
 
 ```html
-<select2 ng-model="obj.field" options="queryOptions">
-    <option value="{{obj.field}}" selected="selected">{{obj.label}}</option>
-</select2>
+<select2 ng-model="selected" options="queryOptions"></select2>
 ```
 
 ## Custom formatting, restrictions, tokenization, ...
