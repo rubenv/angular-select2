@@ -22,13 +22,18 @@ angular.module('myApp', ['rt.select2']);
 ```
 
 ## Usage
-Usage a similar to a normal select with `ngOptions`:
+Usage similar to a normal select:
 
 ```html
-<select2 ng-model="obj.field" s2-options="val.id as val.name for val in values"></select2>
+<select2 ng-model="obj.field">
+    <option value="" ng-selected="{{obj.field === null}}">&lt;none&gt;</option>
+    <option ng-repeat="val in values"
+            value="{{val.id}}"
+            ng-selected="{{val.id == obj.field}}">
+        {{val.name}}
+    </option>
+</select2>
 ```
-
-*Note: using `ng-options` was supported until Angular 1.4 made this impossible. When upgrading to Angular.JS 1.4, be sure to replace all instances of `ng-options` to `s2-options`.*
 
 In fact, you can replace any `<select>` tag by a `<select2>` tag and it should just work.
 
@@ -37,37 +42,55 @@ A multi-selection works similarly: add a `multiple` attribute.
 You can set any [select2](http://ivaynberg.github.io/select2/) option by passing an options object:
 
 ```html
-<select2 ng-model="obj.field" s2-options="val.id as val.name for val in values" options="{ allowClear: true }"></select2>
+<select2 ng-model="obj.field" options="{ allowClear: true }">
+  ...
+</select2>
 ```
 
 ## Async loading of data
-Async-loaded data can by used by leaving out the `s2-options` attribute and by specifying a `query` function:
+Async-loaded data can by used by specifying an `ajax` configuration. The following example is adapted from the "Loading remote data" example on [https://select2.github.io/examples.html](https://select2.github.io/examples.html).
 
 ```js
 angular.module('myApp').controller('MyController', function ($scope) {
     $scope.queryOptions = {
-        query: function (query) {
-            var data = {
-                results: [
-                    { id: "1", text: "A" },
-                    { id: "2", text: "B" }
-                ]
-            };
-
-            query.callback(data);
-        }
+        ajax: {
+            url: "https://api.github.com/search/repositories",
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    q: params.term, // search term
+                    page: params.page
+                };
+            },
+            processResults: function (data, page) {
+                // parse the results into the format expected by Select2.
+                // since we are using custom formatting functions we do not need to
+                // alter the remote JSON data
+                return {
+                    results: data.items
+                };
+            },
+            cache: true
+        },
+        escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+        minimumInputLength: 1,
+        templateResult: formatRepo, // omitted for brevity, see the source of this page
+        templateSelection: formatRepoSelection // omitted for brevity, see the source of this page    
     };
 });
 ```
 
 ```html
-<select2 ng-model="values.query" options="queryOptions"></select2>
+<select2 ng-model="obj.field" options="queryOptions">
+    <option value="{{obj.field}}" selected="selected">{{obj.label}}</option>
+</select2>
 ```
 
 ## Custom formatting, restrictions, tokenization, ...
 This directive is just simple glue to the underlying select2.
 
-[Check the select2 documentation for an overview of the full capabilities.](http://ivaynberg.github.io/select2/)
+[Check the select2 documentation for an overview of the full capabilities.](https://select2.github.io/examples.html)
 
 ## Configuring global defaults
 You can set a default for any option value by using `select2Config`:
