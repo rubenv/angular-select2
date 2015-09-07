@@ -56,7 +56,7 @@ angular.module("rt.select2", [])
                 var isMultiple = angular.isDefined(attrs.multiple) || opts.multiple;
 
                 opts.multiple = isMultiple;
-               
+
                 // make sure ngrequired validation works
                 if (isMultiple) {
                     controller.$isEmpty = function (value) {
