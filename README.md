@@ -23,17 +23,13 @@ angular.module('myApp', ['rt.select2']);
 
 ## Usage
 
-A JS Bin demo showing working usage examples are available [here](https://jsbin.com/gipezidemi/edit?html,js,output).
+A JS Bin demo showing working usage examples are available [here](https://jsbin.com/fifaqu/edit?html,js,output).
 
 Usage similar to a normal select:
 
 ```html
-<select2 ng-model="selected">
-  <option ng-repeat="val in values"
-          value="{{val.id}}"
-          ng-selected="{{val.id == selected}}">
-      {{val.name}}
-  </option>
+<select2 ng-model="selected" ng-options="val.id as val.name for val in values">
+  <option value="">&lt;none&gt;</option>
 </select2>
 ```
 
@@ -56,6 +52,15 @@ Async-loaded data can by used by specifying an `ajax` configuration. The followi
 angular.module('myApp').controller('MyAsyncController', function ($scope) {
 
     /* ... omitted for brevity, see the JS bin ... */
+
+    $scope.selected = "3620194";
+    
+    $scope.values = [
+      {
+        id: "3620194",
+        name: "select2/select2"
+      }
+    ];
 
     $scope.queryOptions = {
         ajax: {
@@ -87,7 +92,9 @@ angular.module('myApp').controller('MyAsyncController', function ($scope) {
 ```
 
 ```html
-<select2 ng-model="selected" options="queryOptions"></select2>
+<select2 ng-model="selected" options="queryOptions" ng-options="val.id as val.name for val in values">
+  <option style="display:none" value="">&lt;none&gt;</option>
+</select2>
 ```
 
 ## Custom formatting, restrictions, tokenization, ...

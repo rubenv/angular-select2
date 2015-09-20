@@ -31,13 +31,17 @@ angular.module("rt.select2", [])
 
         return {
             require: "ngModel",
+            scope: {
+                ngModel: "=",
+                options: "="
+            },
             priority: 1,
             restrict: "E",
             transclude: true, // transclusion instructs angular to embed the original content from the DOM into the resultant output
             template: "<select ng-transclude></select>",
             replace: true,
             link: function (scope, element, attrs, controller) {
-                var opts = angular.extend({}, defaultOptions, scope.$eval(attrs.options));
+                var opts = angular.extend({}, defaultOptions, scope.options);
                 var isMultiple = angular.isDefined(attrs.multiple) || opts.multiple;
 
                 opts.multiple = isMultiple;
@@ -65,26 +69,20 @@ angular.module("rt.select2", [])
                         if (controller.$touched) {
                             return;
                         }
-
-                        scope.$apply(controller.$setTouched);
+                        controller.$setTouched();
                     });
 
                 });
 
-                // Make sure that changes to the value is reflected in the select2 input
-                scope.$watch(
-                    function () {
-                        return controller.$viewValue;
-                    },
-                    function (newVal, oldVal) {
-                        if (newVal === oldVal) {
-                            return;
-                        }
-                        $timeout(function () {
-                            element.val(newVal).trigger("change");
-                        });
+                // make sure that changes to the value is reflected in the select2 input
+                scope.$watch("ngModel", function (newVal, oldVal) {
+                    if (newVal === oldVal) {
+                        return;
                     }
-                );
+                    $timeout(function () {
+                        element.trigger("change");
+                    });
+                });
 
             }
         };
