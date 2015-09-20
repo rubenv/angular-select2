@@ -28,8 +28,7 @@ A JS Bin demo showing working usage examples are available [here](https://jsbin.
 Usage similar to a normal select:
 
 ```html
-<select2 ng-model="selected" ng-options="val.id as val.name for val in values">
-  <option value="">&lt;none&gt;</option>
+<select2 ng-model="selected" ng-options="val.id as val.name for val in values" options="{placeholder:'Select an option', allowClear: true}">
 </select2>
 ```
 
@@ -55,13 +54,6 @@ angular.module('myApp').controller('MyAsyncController', function ($scope) {
 
     $scope.selected = "3620194";
     
-    $scope.values = [
-      {
-        id: "3620194",
-        name: "select2/select2"
-      }
-    ];
-
     $scope.queryOptions = {
         ajax: {
             url: "https://api.github.com/search/repositories",
@@ -92,8 +84,9 @@ angular.module('myApp').controller('MyAsyncController', function ($scope) {
 ```
 
 ```html
-<select2 ng-model="selected" options="queryOptions" ng-options="val.id as val.name for val in values">
-  <option style="display:none" value="">&lt;none&gt;</option>
+<select2 ng-model="selected" options="queryOptions">
+    <option value=""></option>
+    <option value="3620194">select2/select2</option>
 </select2>
 ```
 
