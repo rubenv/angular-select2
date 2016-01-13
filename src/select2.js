@@ -256,6 +256,13 @@ angular.module("rt.select2", [])
                     element.on("change", function (e) {
                         scope.$apply(function () {
                             var val;
+
+                            // if a value was added by select2, we have to add it to our objects dictionary too
+                            if (e.added && !optionItems[e.added.id]) {
+                                e.added.obj = e.added.id;
+                                optionItems[e.added.id] = e.added;
+                            }
+
                             if (isMultiple) {
                                 var vals = [];
                                 for (var i = 0; i < e.val.length; i++) {
