@@ -1,6 +1,6 @@
 {
   "name": "angular-select2",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "main": "dist/angular-select2.js",
   "ignore": [
     "**/.*",
