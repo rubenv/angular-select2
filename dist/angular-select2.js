@@ -280,7 +280,7 @@ angular.module("rt.select2", [])
                             return;
                         }
 
-                        scope.$apply(controller.$setTouched);
+                        scope.$evalAsync(controller.$setTouched);
                     });
 
                     controller.$render();
