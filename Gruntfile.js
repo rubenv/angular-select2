@@ -1,3 +1,5 @@
+var serveStatic = require("serve-static");
+
 module.exports = function (grunt) {
     grunt.loadNpmTasks("grunt-bump");
     grunt.loadNpmTasks("grunt-contrib-clean");
@@ -91,8 +93,8 @@ module.exports = function (grunt) {
                 options: {
                     port: "<%= config.e2ePort %>",
                     hostname: "0.0.0.0",
-                    middleware: function (connect) {
-                        return [connect["static"](__dirname)];
+                    middleware: function () {
+                        return [serveStatic(__dirname)];
                     }
                 }
             }
