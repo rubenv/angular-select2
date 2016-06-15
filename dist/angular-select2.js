@@ -254,7 +254,7 @@ angular.module("rt.select2", [])
                 $timeout(function () {
                     element.select2(opts);
                     element.on("change", function (e) {
-                        scope.$apply(function () {
+                        scope.$evalAsync(function () {
                             var val;
                             if (isMultiple) {
                                 var vals = [];
