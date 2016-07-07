@@ -253,6 +253,27 @@ angular.module("rt.select2", [])
 
                 $timeout(function () {
                     element.select2(opts);
+
+
+                    element.on('select2-open', function(e) {
+
+                        var $search = $( '.select2-search' );
+                        var $input  = $search.find( 'input' );
+                        // prevent keyboard from popping up for Android
+                        $input.attr( 'readonly', 'readonly' );
+                        $input.attr( 'disabled', 'true' );
+                        // prevent keyboard from popping up of iOS
+                        $input.blur();
+
+                        $('.select2-search').click( function() {
+                            console.log('click');
+                            $input.removeAttr( 'readonly' );
+                            $input.removeAttr( 'disabled' );
+                            $input.focus();
+                        } );
+
+                    });
+
                     element.on("change", function (e) {
                         scope.$evalAsync(function () {
                             var val;
