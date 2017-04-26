@@ -251,6 +251,7 @@ angular.module("rt.select2", [])
                 select2Stack.$register(controlObj);
                 scope.$on("destroy", function () {
                     select2Stack.$unregister(controlObj);
+                    element.select2("destroy");
                 });
 
                 $timeout(function () {
