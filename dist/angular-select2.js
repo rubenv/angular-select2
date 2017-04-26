@@ -138,6 +138,7 @@ angular.module("rt.select2", [])
                         var keys = (keyName ? sortedKeys(values) : values) || [];
 
                         var options = [];
+                        optionItems = {};
                         for (var i = 0; i < keys.length; i++) {
                             var locals = {};
                             var key = i;
@@ -151,11 +152,12 @@ angular.module("rt.select2", [])
                             var label = displayFn(scope, locals) || "";
 
                             if (label.toLowerCase().indexOf(query.term.toLowerCase()) > -1) {
-                                options.push({
+                                optionItems[value] = {
                                     id: value,
                                     text: label,
                                     obj: values[key]
-                                });
+                                };
+                                options.push(optionItems[value]);
                             }
                         }
 
@@ -248,6 +250,7 @@ angular.module("rt.select2", [])
                 };
                 select2Stack.$register(controlObj);
                 scope.$on("destroy", function () {
+                    element.select2("destroy");
                     select2Stack.$unregister(controlObj);
                 });
 
