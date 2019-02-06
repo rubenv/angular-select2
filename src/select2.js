@@ -46,12 +46,14 @@ angular.module("rt.select2", [])
         return {
             require: "ngModel",
             priority: 1,
-            restrict: "E",
-            template: "<input type=\"hidden\"></input>",
+            restrict: "EA",
+            template: "<input type=\"hidden\"/>",
             replace: true,
             link: function (scope, element, attrs, controller) {
                 var getOptions;
-
+                element.removeAttr("select2");
+                element.removeAttr("data-select2");
+                element.removeData("select2");
                 var opts = angular.extend({}, defaultOptions, scope.$eval(attrs.options));
                 var isMultiple = angular.isDefined(attrs.multiple) || opts.multiple;
 
@@ -165,7 +167,7 @@ angular.module("rt.select2", [])
                     };
 
                     // Make sure changes to the options get filled in
-                    scope.$watch(match[7], function () {
+                    scope.$watchCollection(match[7], function () {
                         controller.$render();
                     });
                 } else {
