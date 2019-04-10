@@ -200,13 +200,13 @@ angular.module("rt.select2", [])
                     if (isMultiple) {
                         getOptions(function (options) {
                             var selection = [];
-                            for (var i = 0; i < options.length; i++) {
-                                var option = options[i];
+
+                            angular.forEach(optionItems, function(option, key) {
                                 var viewValue = controller.$viewValue || [];
                                 if (viewValue.indexOf(option.id) > -1) {
                                     selection.push(option);
-                                }
-                            }
+                                }                                
+                            });
                             callback(selection);
                         });
                     } else {
